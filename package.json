@@ -1,0 +1,22 @@
+{
+  "name": "reservation-system",
+  "version": "1.0.0",
+  "description": "Restaurant Reservation System",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WaleedOmar87/reservation-system.git"
+  },
+  "keywords": [
+    "restaurant"
+  ],
+  "author": "Waleed Omar",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/WaleedOmar87/reservation-system/issues"
+  },
+  "homepage": "https://github.com/WaleedOmar87/reservation-system#readme"
+}
