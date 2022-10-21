@@ -1,22 +1,29 @@
 {
-  "name": "reservation-system",
-  "version": "1.0.0",
-  "description": "Restaurant Reservation System",
-  "main": "index.js",
-  "scripts": {
-    "test": "test"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/WaleedOmar87/reservation-system.git"
-  },
-  "keywords": [
-    "restaurant"
-  ],
-  "author": "Waleed Omar",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/WaleedOmar87/reservation-system/issues"
-  },
-  "homepage": "https://github.com/WaleedOmar87/reservation-system#readme"
+	"name": "reservation-system",
+	"version": "1.0.0",
+	"description": "Restaurant Reservation System",
+	"main": "index.js",
+	"scripts": {
+		"test": "test"
+	},
+	"author": "Waleed Omar",
+	"license": "ISC",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/WaleedOmar87/reservation-system.git"
+	},
+	"devDependencies": {
+		"nodemon": "^2.0.15"
+	},
+	"dependencies": {
+		"bcryptjs": "^2.4.3",
+		"body-parser": "^1.18.3",
+		"cors": "^2.8.5",
+		"csurf": "^1.11.0",
+		"express": "^4.18.2",
+		"express-session": "^1.17.2",
+		"express-validator": "^6.14.0",
+		"multer": "^1.4.4",
+		"pg": "^8.8.0"
+	}
 }
