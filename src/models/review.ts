@@ -1,7 +1,6 @@
 const { DataTypes } = require("sequelize");
 const Sequelize = require("database/database");
-const Customer = require("src/models/customer");
-
+import { Customer } from "./";
 const Review = Sequelize.define("Review", {
 	review_uid: {
 		type: DataTypes.UUID,
@@ -54,4 +53,4 @@ const Review = Sequelize.define("Review", {
 
 Review.belongsTo(Customer, { constrains: true });
 
-module.exports = Review;
+export default Review;

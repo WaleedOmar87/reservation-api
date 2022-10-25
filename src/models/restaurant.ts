@@ -1,6 +1,6 @@
 const { DataTypes } = require("sequelize");
 const Sequelize = require("database/database");
-const Owner = require("src/models/owners");
+import { Owner } from "./index";
 
 const Restaurant = Sequelize.define("Restaurant", {
 	restaurant_uid: {
@@ -83,4 +83,4 @@ const Restaurant = Sequelize.define("Restaurant", {
 
 Restaurant.belongsTo(Owner, { constrains: true });
 
-module.exports = Restaurant;
+export default Restaurant;

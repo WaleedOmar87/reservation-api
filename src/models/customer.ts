@@ -1,8 +1,6 @@
 const { DataTypes } = require("sequelize");
 const Sequelize = require("database/database");
-const Review = require("src/models/review");
-const Reservation = require("src/models/reservation");
-
+import { Reservation, Review } from "./";
 const Customer = Sequelize.define("Customer", {
 	customer_uid: {
 		type: DataTypes.UUID,
@@ -66,4 +64,4 @@ const Customer = Sequelize.define("Customer", {
 Customer.hasMany(Reservation);
 Customer.hasMany(Review);
 
-module.exports = Customer;
+export default Customer;

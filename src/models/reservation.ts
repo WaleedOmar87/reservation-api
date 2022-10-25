@@ -1,6 +1,6 @@
 const { DataTypes } = require("sequelize");
 const Sequelize = require("database/database");
-const Customer = require("src/models/reservation");
+import { Customer } from "./";
 
 const Reservation = Sequelize.define("Reservation", {
 	reservation_uid: {
@@ -50,4 +50,4 @@ const Reservation = Sequelize.define("Reservation", {
 
 Reservation.belongsTo(Customer);
 
-module.exports = Reservation;
+export default Reservation;

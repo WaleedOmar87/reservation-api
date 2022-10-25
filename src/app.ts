@@ -1,5 +1,5 @@
-const express = require("express");
-const database = require("database/database");
+import express from "express";
+import database from "../database/database";
 
 /* Require routes */
 const ownerRoutes = require("./routes/admin");
