@@ -1,5 +1,5 @@
-import { createOwner, updateOwner } from "src/controllers/owner";
-import express from "express";
+import { createOwner, updateOwner } from "controllers/owner";
+const express = require('express');
 import path from "path";
 
 /* Initialize router */

@@ -1,5 +1,5 @@
 import { NextFunction } from "express";
-import { Reservation } from "src/models";
+import { Reservation } from "models";
 
 export const createReservation = (
 	req: Request,

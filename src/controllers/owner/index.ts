@@ -1,5 +1,5 @@
 import { NextFunction } from "express";
-import { Owner } from "src/models";
+import { Owner } from "models";
 
 export const createOwner = (
 	req: Request,
@@ -12,5 +12,3 @@ export const updateOwner = (
 	res: Response,
 	next: NextFunction
 ) => {};
-
-

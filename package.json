@@ -6,8 +6,8 @@
 	"scripts": {
 		"test": "test",
 		"build": "npx tsc",
-		"start": "node build/app.ts",
-		"dev": "concurrently \"npx tsc --watch\" \"nodemon build/app.js\""
+		"start": "node dist/app.js",
+		"dev": "concurrently \"npx tsc --watch\" \"nodemon dist/app.js\""
 	},
 	"author": "Waleed Omar",
 	"license": "ISC",

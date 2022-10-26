@@ -1,5 +1,5 @@
-import { createReservation , updateReservation } from "src/controllers/reservation";
-import express from "express";
+import { createReservation , updateReservation } from "controllers/reservation";
+const express = require('express')
 import path from "path";
 
 /* Initialize router */

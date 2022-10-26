@@ -1,10 +1,10 @@
-import express from "express";
+const express = require("express");
 import database from "./database/database";
 
 /* Require routes */
-const ownerRoutes = require("./routes/admin");
-const customerRoutes = require("./routes/shop");
-const restaurantRoutes = require("./routes/auth");
+const ownerRoutes = require("./routes/owner");
+const customerRoutes = require("./routes/customer");
+const restaurantRoutes = require("./routes/restaurant");
 const reviewRoutes = require("routes/review");
 const reservationRoute = require("routes/reservation");
 
