@@ -1,7 +1,6 @@
 const { DataTypes } = require("sequelize");
-const Sequelize = require("database/database");
-import { Customer } from "./";
-const Review = Sequelize.define("Review", {
+import database from "@/utils/database";
+const Review = database.define("Review", {
 	review_uid: {
 		type: DataTypes.UUID,
 		unique: true,
@@ -50,7 +49,5 @@ const Review = Sequelize.define("Review", {
 		allowNull: false,
 	},
 });
-
-Review.belongsTo(Customer, { constrains: true });
 
 export default Review;

@@ -1,8 +1,7 @@
 const { DataTypes } = require("sequelize");
-const Sequelize = require("database/database");
-import { Customer } from "./";
+import database from "@/utils/database";
 
-const Reservation = Sequelize.define("Reservation", {
+const Reservation = database.define("Reservation", {
 	reservation_uid: {
 		type: DataTypes.UUID,
 		unique: true,
@@ -11,15 +10,15 @@ const Reservation = Sequelize.define("Reservation", {
 		defaultValue: DataTypes.UUIDV4,
 	},
 	table_number: {
-		type: DataTypes.NUMBER,
+		type: DataTypes.INTEGER,
 		allowNull: false,
 	},
 	time_slot: {
-		types: DataTypes.RANGE(DataTypes.DATE),
+		type: DataTypes.RANGE(DataTypes.DATE),
 		allowNull: false,
 	},
 	party_size: {
-		type: DataTypes.NUMBER,
+		type: DataTypes.INTEGER,
 		allowNull: false,
 		validate: {
 			min: 1,
@@ -31,7 +30,7 @@ const Reservation = Sequelize.define("Reservation", {
 		allowNull: false,
 	},
 	expired: {
-		tpe: DataTypes.BOOLEAN,
+		type: DataTypes.BOOLEAN,
 		allowNull: true,
 	},
 	order_details: {
@@ -48,6 +47,5 @@ const Reservation = Sequelize.define("Reservation", {
 	},
 });
 
-Reservation.belongsTo(Customer);
 
 export default Reservation;

@@ -1,22 +1,17 @@
+require("module-alias/register");
 const express = require("express");
-import database from "./database/database";
-
-/* Require routes */
-const ownerRoutes = require("./routes/owner");
-const customerRoutes = require("./routes/customer");
-const restaurantRoutes = require("./routes/restaurant");
-const reviewRoutes = require("routes/review");
-const reservationRoute = require("routes/reservation");
+import database from "@/utils/database";
+import { Owner, Reservation } from "@/routes/index";
+import { relations } from "@/models/index";
 
 /* Init application */
 const app = express();
-app.use(ownerRoutes);
-app.use(customerRoutes);
-app.use(reviewRoutes);
-app.use(restaurantRoutes);
-app.use(reservationRoute);
+app.use(Owner);
+app.use(Reservation);
 
 /* Sync Database Models */
+// Perform models relations
+relations();
 database
 	.sync()
 	.then((res: Response) => {

@@ -1,8 +1,7 @@
 const { DataTypes } = require("sequelize");
-const Sequelize = require("database/database");
-import { Owner } from "./index";
+import database from "@/utils/database";
 
-const Restaurant = Sequelize.define("Restaurant", {
+const Restaurant = database.define("Restaurant", {
 	restaurant_uid: {
 		type: DataTypes.UUID,
 		allowNull: false,
@@ -36,7 +35,7 @@ const Restaurant = Sequelize.define("Restaurant", {
 		allowNull: false,
 	},
 	price_range: {
-		type: DataTypes.RANGE(DataTypes.NUMBER),
+		type: DataTypes.RANGE(DataTypes.INTEGER),
 		allowNull: false,
 	},
 	cover_image: {
@@ -48,7 +47,7 @@ const Restaurant = Sequelize.define("Restaurant", {
 		allowNull: true,
 	},
 	restaurant_address: {
-		type: DataTypes.STING,
+		type: DataTypes.STRING,
 		allowNull: false,
 	},
 	available_seats: {
@@ -81,6 +80,5 @@ const Restaurant = Sequelize.define("Restaurant", {
 	},
 });
 
-Restaurant.belongsTo(Owner, { constrains: true });
 
 export default Restaurant;

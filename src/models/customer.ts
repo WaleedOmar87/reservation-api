@@ -1,7 +1,8 @@
 const { DataTypes } = require("sequelize");
-const Sequelize = require("database/database");
-import { Reservation, Review } from "./";
-const Customer = Sequelize.define("Customer", {
+import database from "@/utils/database";
+
+import { Reservation, Review } from "@/models/index";
+const Customer = database.define("Customer", {
 	customer_uid: {
 		type: DataTypes.UUID,
 		allowNull: false,
@@ -18,7 +19,7 @@ const Customer = Sequelize.define("Customer", {
 		allowNull: true,
 	},
 	zip_code: {
-		type: DataTypes.NUMBER,
+		type: DataTypes.INTEGER,
 		allowNull: false,
 	},
 	customer_address: {
@@ -38,12 +39,12 @@ const Customer = Sequelize.define("Customer", {
 		allowNull: false,
 	},
 	phone_number: {
-		type: DataTypes.NUMBEr,
+		type: DataTypes.INTEGER,
 		allowNull: false,
 		unique: true,
 	},
 	age: {
-		type: DataTypes.NUMBER,
+		type: DataTypes.INTEGER,
 		allowNull: false,
 	},
 	email: {
@@ -60,8 +61,5 @@ const Customer = Sequelize.define("Customer", {
 		allowNull: true,
 	},
 });
-
-Customer.hasMany(Reservation);
-Customer.hasMany(Review);
 
 export default Customer;

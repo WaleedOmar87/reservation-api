@@ -1,8 +1,7 @@
 const { DataTypes } = require("sequelize");
-const Sequelize = require("database/database");
-import { Restaurant } from "./";
+import database from "@/utils/database";
 
-const Owner = Sequelize.define("Owner", {
+const Owner = database.define("Owner", {
 	owner_uid: {
 		type: DataTypes.UUID,
 		allowNull: false,
@@ -38,6 +37,5 @@ const Owner = Sequelize.define("Owner", {
 	},
 });
 
-Owner.hasMany(Restaurant);
 
 export default Owner;

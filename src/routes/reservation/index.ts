@@ -1,4 +1,4 @@
-import { createReservation , updateReservation } from "controllers/reservation";
+import { createReservation , updateReservation } from "@/controllers/reservation";
 const express = require('express')
 import path from "path";
 
