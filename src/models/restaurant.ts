@@ -23,7 +23,6 @@ const Restaurant = database.define("Restaurant", {
 	},
 	restaurant_name: {
 		type: DataTypes.STRING,
-		unique: true,
 		allowNull: false,
 	},
 	restaurant_description: {
@@ -31,7 +30,7 @@ const Restaurant = database.define("Restaurant", {
 		allowNull: false,
 	},
 	open_time: {
-		type: DataTypes.RANGE(DataTypes.TIME),
+		type: DataTypes.RANGE(DataTypes.DATE),
 		allowNull: false,
 	},
 	price_range: {

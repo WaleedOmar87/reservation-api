@@ -2,7 +2,9 @@ import { NextFunction, Response, Request } from "express";
 import { Owner } from "@/models/index";
 
 export const getOwner = (req: Request, res: Response, next: NextFunction) => {
-	Owner.find();
+	res.json({
+		message: "hello ",
+	});
 };
 export const createOwner = (
 	req: Request,
@@ -12,8 +14,8 @@ export const createOwner = (
 	Owner.create({
 		owner_name: "Waleed" as any,
 		owner_address: "Somewhere",
-		phone_number: "01119999999" as any,
-		email: "waleed@gmail.com",
+		phone_number: "332432242" as any,
+		email: "waleed2@gmail.com",
 	});
 	next();
 };
