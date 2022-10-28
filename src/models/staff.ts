@@ -1,19 +1,15 @@
 const { DataTypes } = require("sequelize");
 import database from "@/utils/database";
 
-const Owner = database.define("Owner", {
-	owner_uid: {
+const Staff = database.define("Staff", {
+	staff_uid: {
 		type: DataTypes.UUID,
 		allowNull: false,
 		primaryKey: true,
 		defaultValue: DataTypes.UUIDV4,
 		unique: true,
 	},
-	owner_name: {
-		type: DataTypes.STRING,
-		allowNull: false,
-	},
-	owner_address: {
+	staff_name: {
 		type: DataTypes.STRING,
 		allowNull: false,
 	},
@@ -28,12 +24,12 @@ const Owner = database.define("Owner", {
 		unique: true,
 	},
 	password: {
-		type: DataTypes.STRING,
-		allowNull: false,
+		type: DataTypes.STRING ,
+		allowNull: false
 	},
 	passwordResetKey: {
-		type: DataTypes.STRING,
-		allowNull: true,
+		type: DataTypes.string ,
+		allowNull: true
 	},
 	email_verified: {
 		type: DataTypes.BOOLEAN,
@@ -45,4 +41,4 @@ const Owner = database.define("Owner", {
 	},
 });
 
-export default Owner;
+export default Staff;

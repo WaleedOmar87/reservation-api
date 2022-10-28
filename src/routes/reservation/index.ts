@@ -1,11 +1,19 @@
-import { createReservation , updateReservation } from "@/controllers/reservation";
-const express = require('express')
-import path from "path";
+import {
+	getAllReservations,
+	getReservationByID ,
+	createReservation ,
+	updateReservation,
+	deleteReservation,
+} from "@/controllers/reservation";
+import * as Express from "express";
 
 /* Initialize router */
-const router = express.Router();
+const router: Express.Router = Express.Router();
 
-router.get("/create-reservation", createReservation as any);
-router.get("/update-reservation/:id", updateReservation as any);
+router.get("/reservation/all", getAllReservations);
+router.get("/reservation/:id", getReservationByID);
+router.post('/reservation' , createReservation);
+router.patch("/reservation/:id", updateReservation);
+router.delete("/reservation/:id", deleteReservation);
 
 export default router;

@@ -1,14 +1,17 @@
 import { NextFunction } from "express";
 import { Reservation } from "@/models/index";
 
-export const createReservation = (
-	req: Request,
-	res: Response,
-	next: NextFunction
-) => {};
+// Get all reservations
+export const getAllReservations = () => {};
 
-export const updateReservation = (
-	req: Request,
-	res: Response,
-	next: NextFunction
-) => {};
+// Get reservation
+export const getReservationByID = () => {};
+
+// Create reservation
+export const createReservation = () => {};
+
+// Update reservation
+export const updateReservation = () => {};
+
+// Delete Reservation
+export const deleteReservation = () => {};

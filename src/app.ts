@@ -3,6 +3,7 @@ const express = require("express");
 import database from "@/utils/database";
 import { Owner, Reservation } from "@/routes/index";
 import { relations } from "@/models/index";
+import { log } from "@/utils/logger";
 
 /* Init application */
 const app = express();
@@ -15,11 +16,10 @@ relations();
 database
 	.sync()
 	.then((res: Response) => {
-		/* Listen on port 8888 */
 		app.listen(process.env.PORT, () => {
-			console.log("server is running");
+			log.info("Server Started and Connected To Database");
 		});
 	})
 	.catch((error: Error) => {
-		console.log(error);
+		log.error(`Error: ${error}`);
 	});

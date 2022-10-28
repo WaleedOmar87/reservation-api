@@ -52,6 +52,14 @@ const Customer = database.define("Customer", {
 		allowNull: false,
 		unique: true,
 	},
+	password: {
+		type: DataTypes.STRING,
+		allowNull: false,
+	},
+	passwordResetKey: {
+		type: DataTypes.STRING,
+		allowNull: true,
+	},
 	email_verified: {
 		type: DataTypes.BOOLEAN,
 		allowNull: true,

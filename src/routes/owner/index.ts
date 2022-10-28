@@ -1,13 +1,19 @@
-import { createOwner, updateOwner, getOwner , deleteOwner } from "@/controllers/owner";
-const express = require("express");
-import path from "path";
+import {
+	createOwner,
+	updateOwner,
+	getOwnerByID,
+	deleteOwner,
+	getAllOwners,
+} from "@/controllers/owner";
+import * as Express from "express";
 
 /* Initialize router */
-const router = express.Router();
+const router: Express.Router = Express.Router();
 
-router.get("/owner", getOwner as any);
-router.post("/owner", createOwner as any);
-router.patch("/owner/:id", updateOwner as any);
-router.delete("/owner/:id", deleteOwner as any);
+router.get("/owner/:id", getOwnerByID);
+router.get("/owner/all", getAllOwners);
+router.post("/owner", createOwner);
+router.patch("/owner/:id", updateOwner);
+router.delete("/owner/:id", deleteOwner);
 
 export default router;

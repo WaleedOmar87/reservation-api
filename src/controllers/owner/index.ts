@@ -1,10 +1,31 @@
 import { NextFunction, Response, Request } from "express";
 import { Owner } from "@/models/index";
 
-export const getOwner = (req: Request, res: Response, next: NextFunction) => {
+/* Get all owners */
+export const getAllOwners = async (
+	req: Request,
+	res: Response,
+	next: NextFunction
+) => {
+	const getOwners = await Owner.findAll();
 	res.json({
-		message: "hello ",
+		data: getOwners,
 	});
+	next();
+};
+
+/* Get single owner */
+export const getOwnerByID = async (
+	req: Request,
+	res: Response,
+	next: NextFunction
+) => {
+	const getOwnerID: string = req.params.id;
+	const fetchOwner = await Owner.findByPk(getOwnerID);
+	res.json({
+		ownerID: fetchOwner,
+	});
+	next();
 };
 export const createOwner = (
 	req: Request,
@@ -16,6 +37,7 @@ export const createOwner = (
 		owner_address: "Somewhere",
 		phone_number: "332432242" as any,
 		email: "waleed2@gmail.com",
+		password: "1234567",
 	});
 	next();
 };
