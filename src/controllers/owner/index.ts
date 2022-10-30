@@ -1,5 +1,7 @@
 import { NextFunction, Response, Request } from "express";
 import { Owner } from "@/models/index";
+import { OwnerInterface } from "@/types/index";
+import { UUIDV4 } from "sequelize";
 
 /* Get all owners */
 export const getAllOwners = async (
@@ -16,11 +18,11 @@ export const getAllOwners = async (
 
 /* Get single owner */
 export const getOwnerByID = async (
-	req: Request,
+	req: Request<{}, {}, OwnerInterface>,
 	res: Response,
 	next: NextFunction
 ) => {
-	const getOwnerID: string = req.params.id;
+	const getOwnerID: typeof UUIDV4 = req.body.owner_uid;
 	const fetchOwner = await Owner.findByPk(getOwnerID);
 	res.json({
 		ownerID: fetchOwner,
