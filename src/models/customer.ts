@@ -54,10 +54,16 @@ const Customer = database.define(
 			allowNull: false,
 			unique: true,
 		},
+		emailValidationKey: {
+			type: DataTypes.STRING,
+			unique: true,
+			allowNull: true,
+		},
 		password: {
 			type: DataTypes.STRING,
 			allowNull: false,
 		},
+
 		passwordResetKey: {
 			type: DataTypes.STRING,
 			allowNull: true,
@@ -72,18 +78,26 @@ const Customer = database.define(
 		},
 	},
 	{
-		// update password on create and save actions
-		beforeCreate: async (customer: { password?: string }) => {
-			if (customer.password) {
-				const salt = await bcrypt.genSalt(10, "a");
-				customer.password = bcrypt.hashSync(customer.password, salt);
-			}
-		},
-		beforeUpdate: async (customer: { password?: string }) => {
-			if (customer.password) {
-				const salt = await bcrypt.genSalt(10, "a");
-				customer.password = bcrypt.hashSync(customer.password, salt);
-			}
+		hooks: {
+			// update password on create and save actions
+			beforeCreate: async (customer: { password?: string }) => {
+				if (customer.password) {
+					const salt = await bcrypt.genSalt(10, "a");
+					customer.password = bcrypt.hashSync(
+						customer.password,
+						salt
+					);
+				}
+			},
+			beforeUpdate: async (customer: { password?: string }) => {
+				if (customer.password) {
+					const salt = await bcrypt.genSalt(10, "a");
+					customer.password = bcrypt.hashSync(
+						customer.password,
+						salt
+					);
+				}
+			},
 		},
 	}
 );

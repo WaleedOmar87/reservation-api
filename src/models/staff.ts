@@ -1,5 +1,5 @@
 const { DataTypes } = require("sequelize");
-const bcrypt = require('bcryptjs')
+const bcrypt = require("bcryptjs");
 import database from "@/utils/database";
 
 const Staff = database.define(
@@ -37,6 +37,11 @@ const Staff = database.define(
 			type: DataTypes.STRING,
 			allowNull: false,
 		},
+		emailValidationKey: {
+			type: DataTypes.STRING,
+			allowNull: true,
+			unique: true,
+		},
 		passwordResetKey: {
 			type: DataTypes.STRING,
 			allowNull: true,
@@ -51,18 +56,20 @@ const Staff = database.define(
 		},
 	},
 	{
-		// update password on create and save actions
-		beforeCreate: async (staff: { password?: string }) => {
-			if (staff.password) {
-				const salt = await bcrypt.genSalt(10, "a");
-				staff.password = bcrypt.hashSync(staff.password, salt);
-			}
-		},
-		beforeUpdate: async (staff: { password?: string }) => {
-			if (staff.password) {
-				const salt = await bcrypt.genSalt(10, "a");
-				staff.password = bcrypt.hashSync(staff.password, salt);
-			}
+		hooks: {
+			// update password on create and save actions
+			beforeCreate: async (staff: { password?: string }) => {
+				if (staff.password) {
+					const salt = await bcrypt.genSalt(10, "a");
+					staff.password = bcrypt.hashSync(staff.password, salt);
+				}
+			},
+			beforeUpdate: async (staff: { password?: string }) => {
+				if (staff.password) {
+					const salt = await bcrypt.genSalt(10, "a");
+					staff.password = bcrypt.hashSync(staff.password, salt);
+				}
+			},
 		},
 	}
 );
