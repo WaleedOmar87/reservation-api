@@ -77,7 +77,12 @@ const Restaurant = database.define("Restaurant", {
 		type: DataTypes.JSON,
 		allowNull: false,
 	},
+	status: {
+		type: DataTypes.STRING,
+		validate: {
+			is: /private|public/g,
+		},
+	},
 });
-
 
 export default Restaurant;

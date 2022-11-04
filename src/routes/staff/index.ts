@@ -1,4 +1,8 @@
-import { verifyEmailAddress } from "@/controllers/auth";
+import {
+	forgotPassword,
+	resetPassword,
+	verifyEmailAddress,
+} from "@/controllers/auth";
 import {
 	getStaffByID,
 	getAllStaff,
@@ -18,6 +22,12 @@ router.patch("/staff", updateStaff);
 router.delete("/staff", deleteStaff);
 
 // Verify Email
-router.post('/staff/verify_email/:id/:validation_key' , verifyEmailAddress);
+router.post("/staff/verify_email/:id/:validation_key", verifyEmailAddress);
+
+// Forgot Password
+router.post("/staff/forgotpassword/:email", forgotPassword);
+
+// Reset Password
+router.post("/staff/resetpassword/:email/:reset_key", resetPassword);
 
 export default router;

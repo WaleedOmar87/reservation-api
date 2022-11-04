@@ -6,16 +6,8 @@ module.exports = {
 		return queryInterface.sequelize.transaction((t) => {
 			return Promise.all([
 				queryInterface.addColumn(
-					"Staffs",
-					"emailValidationKey",
-					{
-						type: Sequelize.DataTypes.STRING,
-					},
-					{ transaction: t }
-				),
-				queryInterface.addColumn(
 					"Owners",
-					"emailValidationKey",
+					"passwordResetKey",
 					{
 						type: Sequelize.DataTypes.STRING,
 					},
@@ -23,7 +15,7 @@ module.exports = {
 				),
 				queryInterface.addColumn(
 					"Customers",
-					"emailValidationKey",
+					"passwordResetKey",
 					{
 						type: Sequelize.DataTypes.STRING,
 					},

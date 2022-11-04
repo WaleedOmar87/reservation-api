@@ -83,22 +83,22 @@ const Customer = database.define(
 			beforeCreate: async (customer: { password?: string }) => {
 				if (customer.password) {
 					const salt = await bcrypt.genSalt(10, "a");
-					customer.password = bcrypt.hashSync(
-						customer.password,
-						salt
-					);
+					customer.password = bcrypt.hashSync(customer.password, salt);
 				}
 			},
 			beforeUpdate: async (customer: { password?: string }) => {
 				if (customer.password) {
 					const salt = await bcrypt.genSalt(10, "a");
-					customer.password = bcrypt.hashSync(
-						customer.password,
-						salt
-					);
+					customer.password = bcrypt.hashSync(customer.password, salt);
 				}
 			},
 		},
+		indexes: [
+			{
+				fields: ["email"],
+				unique: true,
+			},
+		],
 	}
 );
 

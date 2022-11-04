@@ -68,6 +68,12 @@ const Owner = database.define(
 				}
 			},
 		},
+		indexes: [
+			{
+				fields: ["email"],
+				unique: true,
+			},
+		],
 	}
 );
 

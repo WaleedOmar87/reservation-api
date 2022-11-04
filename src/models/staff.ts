@@ -71,6 +71,12 @@ const Staff = database.define(
 				}
 			},
 		},
+		indexes: [
+			{
+				fields: ["email"],
+				unique: true,
+			},
+		],
 	}
 );
 
