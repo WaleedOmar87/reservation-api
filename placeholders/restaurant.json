@@ -1,0 +1,86 @@
+{
+	"owner_uid": "79c0e799-cdd6-4ca5-ab37-b0e1999e886d",
+	"country": "Egypt",
+	"provenance": "Cairo",
+	"city": "Cairo",
+	"restaurant_name": "Dinner Time",
+	"restaurant_description": "Eat Your Dinner Here",
+	"open_time": ["2023-01-01 09:30", "2023-01-01 22:30"],
+	"price_range": [200 , 500],
+	"cover_image": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2970&q=80",
+	"restaurant_address": "11 District ,6th October City, Giza",
+	"available_seats": {
+		"standard": {
+			"title": "Standard",
+			"Description": "Standard Seat",
+			"additional_price": 300
+		},
+		"premium": {
+			"title": "Premium",
+			"Description": "Premium Seat",
+			"additional_price": 500
+		}
+	},
+	"food_menu": [
+		{
+			"title": "Dish One",
+			"description": "Dish One Description",
+			"price": 200
+		},
+		{
+			"title": "Dish Two",
+			"description": "Dish Two Description",
+			"price": 500
+		},
+		{
+			"title": "Dish Three",
+			"description": "Dish Thee Description",
+			"price": 350
+		}
+	],
+	"seating_types": [
+		{
+			"title": "Seating One",
+			"description": "Seating One Description",
+			"additional_fee": 200
+		},
+		{
+			"title": "Seating Two",
+			"description": "Seating Two Description",
+			"additional_fee": 300
+		},
+		{
+			"title": "Seating Three",
+			"description": "Seating Three Description",
+			"additional_fee": 500
+		}
+	],
+	"contact_information": [
+		{
+			"title": "Email",
+			"description": "info@restaurantname.com",
+			"icon": "envelope"
+		},
+		{
+			"title": "Phone Number",
+			"description": "01343232",
+			"icon": "phone"
+		}
+	],
+	"rating_visibility": true,
+	"additional_information": [
+		{
+			"title": "Dress Code",
+			"description": "Formal",
+			"icon": "suit"
+		}
+	],
+	"tables": [
+		{
+			"title": "Table One",
+			"description": "Table One Description",
+			"seats": 4
+		}
+	],
+	"status": "public"
+}

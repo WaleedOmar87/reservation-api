@@ -1,7 +1,14 @@
 require("module-alias/register");
 const express = require("express");
 import database from "@/utils/database";
-import { Owner, Reservation, Auth, Staff } from "@/routes/index";
+import {
+	OwnerRoutes,
+	ReservationRoutes,
+	AuthRoutes,
+	StaffRoutes,
+	RestaurantRoutes,
+	ReviewRoutes,
+} from "@/routes/index";
 import { relations } from "@/models/index";
 import { log } from "@/utils/logger";
 
@@ -12,10 +19,12 @@ const app = express();
 app.use(express.json());
 
 /* Register Routes */
-app.use(Auth);
-app.use(Owner);
-app.use(Reservation);
-app.use(Staff);
+app.use(AuthRoutes);
+app.use(OwnerRoutes);
+app.use(ReservationRoutes);
+app.use(StaffRoutes);
+app.use(RestaurantRoutes);
+app.use(ReviewRoutes);
 
 /* Sync Database Models */
 // Perform models relations

@@ -1,5 +1,6 @@
 const { DataTypes } = require("sequelize");
 import database from "@/utils/database";
+import { updateTimeSlot } from "@/helpers/index";
 
 const Reservation = database.define(
 	"Reservation",
@@ -49,6 +50,19 @@ const Reservation = database.define(
 		},
 	},
 	{
+		hooks: {
+			// Update time slot of the reservation before create and update
+			beforeCreate: (reservation: { time_slot?: object[] }) => {
+				if (reservation.time_slot) {
+					reservation.time_slot = updateTimeSlot(reservation.time_slot);
+				}
+			},
+			beforeUpdate: (reservation: { time_slot?: object[] }) => {
+				if (reservation.time_slot) {
+					reservation.time_slot = updateTimeSlot(reservation.time_slot);
+				}
+			},
+		},
 		indexes: [
 			{
 				fields: ["reservation_uid"],
@@ -57,6 +71,5 @@ const Reservation = database.define(
 		],
 	}
 );
-
 
 export default Reservation;

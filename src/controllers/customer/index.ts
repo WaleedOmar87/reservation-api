@@ -48,8 +48,8 @@ export const getCustomerByID = async (
 ) => {
 	let response: ResponseInterface;
 	try {
-		const customerID = req.body.id;
-		const customer = await Customer.findByPK(customerID);
+		let { id } = req.params;
+		const customer = await Customer.findByPK(id);
 		if (!customer) {
 			response = {
 				message: "User Not Found",
@@ -84,10 +84,10 @@ export const getReservationWithCustomer = async (
 ) => {
 	let response: ResponseInterface;
 	try {
-		let reservationID = req.body.reservationID;
+		let { id } = req.params;
 		let reservationWithCustomer = Reservation.findAll({
 			where: {
-				reservation_uid: reservationID,
+				reservation_uid: id,
 			},
 			include: [
 				{
@@ -129,7 +129,7 @@ export const createCustomer = async (
 ) => {
 	let response: ResponseInterface;
 	try {
-		let body = req.body;
+		let { body } = req;
 		let newCustomer = await Customer.create({
 			...body,
 			emailValidationKey: nanoid(),
@@ -167,7 +167,7 @@ export const updateCustomer = async (
 ) => {
 	let response: ResponseInterface;
 	try {
-		const body = req.body;
+		let { body } = req;
 		let customer = await Customer.findByPk(body.id);
 		if (!customer) {
 			response = {
@@ -204,8 +204,8 @@ export const deleteCustomer = async (
 	let response: ResponseInterface;
 
 	try {
-		let body = req.body;
-		let customer = await Customer.findByPk(body.id);
+		let { id } = req.body;
+		let customer = await Customer.findByPk(id);
 		if (!customer) {
 			response = {
 				message: "User Not Found",

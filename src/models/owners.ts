@@ -73,6 +73,10 @@ const Owner = database.define(
 				fields: ["email"],
 				unique: true,
 			},
+			{
+				fields: ["owner_uid"],
+				unique: true,
+			},
 		],
 	}
 );

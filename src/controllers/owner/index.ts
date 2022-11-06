@@ -2,10 +2,7 @@ import { NextFunction, Response, Request } from "express";
 import { nanoid } from "nanoid";
 import { sendMail } from "@/utils/mailer";
 import { Owner } from "@/models/index";
-import {
-	ResponseInterface,
-	ErrorInterface,
-} from "@/types/index";
+import { ResponseInterface, ErrorInterface } from "@/types/index";
 import { log } from "@/utils/logger";
 
 /* Get all owners */
@@ -24,7 +21,7 @@ export const getAllOwners = async (
 			code: 200,
 		};
 	} catch (error: ErrorInterface | any) {
-		log.error(`type: ${error.type} - ${error.message}`);
+		log.error(`Error: ${error.message}`);
 		response = {
 			message: error.message,
 			code: 500,
@@ -43,8 +40,8 @@ export const getOwnerByID = async (
 ) => {
 	let response: ResponseInterface;
 	try {
-		let ownerID = req.params.id;
-		let getOwner = await Owner.findByPk(ownerID);
+		let { id } = req.params;
+		let getOwner = await Owner.findByPk(id);
 
 		if (!getOwner) {
 			response = {
@@ -62,13 +59,12 @@ export const getOwnerByID = async (
 		}
 	} catch (error: ErrorInterface | any) {
 		response = {
-			message: error.message,
+			message: `Error: ${error.message}`,
 			code: 500,
 			success: false,
 		};
 	}
 	res.status(response.code).json(response);
-
 	next();
 };
 
@@ -80,7 +76,7 @@ export const createOwner = async (
 ) => {
 	let response: ResponseInterface;
 	try {
-		let body = req.body;
+		let { body } = req;
 		let newOwner = await Owner.create({
 			...body,
 			emailValidationKey: nanoid(),
@@ -117,7 +113,7 @@ export const updateOwner = async (
 ) => {
 	let response: ResponseInterface;
 	try {
-		const body = req.body;
+		let { body } = req;
 		let owner = await Owner.findByPk(body.id);
 		if (!owner) {
 			response = {
@@ -153,7 +149,7 @@ export const deleteOwner = async (
 	let response: ResponseInterface;
 
 	try {
-		let body = req.body;
+		let { body } = req;
 		let owner = await Owner.findByPk(body.id);
 		if (!owner) {
 			response = {

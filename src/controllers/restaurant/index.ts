@@ -1,4 +1,4 @@
-import { Restaurant } from "@/models/index";
+import { Owner, Restaurant } from "@/models/index";
 import { NextFunction, Response, Request } from "express";
 import { log } from "@/utils/logger";
 import { ResponseInterface, ErrorInterface } from "@/types/index";
@@ -34,6 +34,7 @@ export const getAllRestaurants = async (
 			success: false,
 		};
 	}
+	log.info(response);
 	res.status(response.code).json(response);
 	next();
 };
@@ -46,8 +47,12 @@ export const getRestaurantByID = async (
 ) => {
 	let response: ResponseInterface;
 	try {
-		const restaurantID = req.body.id;
-		const restaurant = await restaurantID.findByPK(restaurantID);
+		let { id } = req.params;
+		const restaurant = await Restaurant.findAll({
+			where: {
+				restaurant_uid: id,
+			},
+		});
 		if (!restaurant) {
 			response = {
 				message: "Restaurant Not Found",
@@ -79,7 +84,44 @@ export const getRestaurantsByOwnerID = async (
 	req: Request,
 	res: Response,
 	next: NextFunction
-) => {};
+) => {
+	let response: ResponseInterface;
+	try {
+		let { id } = req.params;
+		let restaurants = await Restaurant.findAll({
+			where: {
+				owner_uid: id,
+			},
+			include: {
+				model: Owner,
+				as: "Owner",
+			},
+		});
+		if (!restaurants || restaurants.length < 1) {
+			response = {
+				message: "No Restaurants Found",
+				code: 400,
+				success: false,
+			};
+		} else {
+			response = {
+				message: `Found All Restaurants Belongs To ${restaurants[0].Owner.owner_name}`,
+				data: restaurants,
+				code: 200,
+				success: true,
+			};
+		}
+	} catch (error: ErrorInterface | any) {
+		log.error(error.message);
+		response = {
+			message: `Error: ${error.message}`,
+			code: 500,
+			success: false,
+		};
+	}
+	res.status(response.code).json(response);
+	next();
+};
 
 // Create restaurant
 export const createRestaurant = async (
@@ -89,7 +131,7 @@ export const createRestaurant = async (
 ) => {
 	let response: ResponseInterface;
 	try {
-		let body = req.body;
+		let { body } = req;
 		let newRestaurant = await Restaurant.create({
 			...body,
 		});
@@ -118,7 +160,7 @@ export const updateRestaurant = async (
 ) => {
 	let response: ResponseInterface;
 	try {
-		const body = req.body;
+		let { body } = req;
 		let restaurant = await Restaurant.findByPk(body.id);
 		if (!restaurant) {
 			response = {
@@ -154,7 +196,7 @@ export const deleteRestaurant = async (
 ) => {
 	let response: ResponseInterface;
 	try {
-		let body = req.body;
+		let { body } = req;
 		let restaurant = await Restaurant.findByPk(body.id);
 		if (!restaurant) {
 			response = {

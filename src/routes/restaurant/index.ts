@@ -1,7 +1,7 @@
 import {
 	getAllRestaurants,
 	getRestaurantByID,
-	getRestaurantByOwnerID,
+	getRestaurantsByOwnerID,
 	createRestaurant,
 	updateRestaurant,
 	deleteRestaurant,
@@ -11,11 +11,11 @@ import * as Express from "express";
 /* Initialize router */
 const router: Express.Router = Express.Router();
 
-router.get("/reservation/all", getAllRestaurants);
-router.get("/reservation/:id", getRestaurantByID);
-router.get("/restaurant/owner_id/:id", getRestaurantByOwnerID);
+router.get("/restaurant/all", getAllRestaurants);
+router.get("/restaurant/:id", getRestaurantByID);
+router.get("/restaurant/byowner/:id", getRestaurantsByOwnerID);
 router.post("/restaurant", createRestaurant);
-router.patch("/restaurant/:id", updateRestaurant);
-router.delete("/restaurant/:id", deleteRestaurant);
+router.patch("/restaurant", updateRestaurant);
+router.delete("/restaurant", deleteRestaurant);
 
 export default router;

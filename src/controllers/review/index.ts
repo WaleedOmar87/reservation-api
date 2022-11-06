@@ -46,8 +46,8 @@ export const getReviewByID = async (
 ) => {
 	let response: ResponseInterface;
 	try {
-		const reviewID = req.body.id;
-		const review = await Review.findByPK(reviewID);
+		let { id } = req.params;
+		const review = await Review.findByPK(id);
 		if (!review) {
 			response = {
 				message: "Review Not Found",
@@ -82,7 +82,7 @@ export const createReview = async (
 ) => {
 	let response: ResponseInterface;
 	try {
-		let body = req.body;
+		let { body } = req;
 		let newReview = await Review.create({
 			...body,
 		});
@@ -110,10 +110,10 @@ export const getReviewWithRestaurant = async (
 ) => {
 	let response: ResponseInterface;
 	try {
-		let reviewID = req.body.reviewID;
+		let { id } = req.params;
 		let reviewWithRestaurant = Review.findAll({
 			where: {
-				review_uid: reviewID,
+				review_uid: id,
 			},
 			include: [
 				{
@@ -155,10 +155,10 @@ export const getReviewWithCustomer = async (
 ) => {
 	let response: ResponseInterface;
 	try {
-		let reviewID = req.body.reviewID;
+		let { id } = req.params;
 		let reviewWithCustomer = Review.findAll({
 			where: {
-				review_uid: reviewID,
+				review_uid: id,
 			},
 			include: [
 				{
@@ -200,7 +200,7 @@ export const updateReview = async (
 ) => {
 	let response: ResponseInterface;
 	try {
-		const body = req.body;
+		let { body } = req;
 		let review = await Review.findByPk(body.id);
 		if (!review) {
 			response = {
@@ -236,7 +236,7 @@ export const deleteReview = async (
 ) => {
 	let response: ResponseInterface;
 	try {
-		let body = req.body;
+		let { body } = req;
 		let review = await Review.findByPk(body.id);
 		if (!review) {
 			response = {

@@ -1,6 +1,10 @@
 {
 	"cSpell.words": [
+		"byowner",
 		"byreservation",
-		"forgotpassword"
+		"forgotpassword",
+		"tstzrange",
+		"withcustomer",
+		"withrestaurant"
 	]
 }

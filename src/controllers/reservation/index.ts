@@ -44,18 +44,18 @@ export const getReservationByID = async (
 ) => {
 	let response: ResponseInterface;
 	try {
-		const reservationID = req.body.id;
-		const reservation = await Reservation.findByPK(reservationID);
+		const { id } = req.params;
+		const reservation = await Reservation.findByPK(id);
 		if (!reservation) {
 			response = {
-				message: "User Not Found",
+				message: "Reservation Not Found",
 				success: false,
 				code: 400,
 			};
 		} else {
 			response = {
 				data: reservation,
-				message: "User were found",
+				message: "Reservation were found",
 				code: 200,
 				success: true,
 			};
@@ -80,14 +80,14 @@ export const createReservation = async (
 ) => {
 	let response: ResponseInterface;
 	try {
-		let body = req.body;
+		let { body } = req;
 		let reservation = await Reservation.create({
 			...body,
 		});
 
 		if (!reservation) {
 			response = {
-				message: "Error creating reservation",
+				message: "Error Creating Reservation",
 				code: 500,
 				success: false,
 			};
@@ -117,7 +117,7 @@ export const updateReservation = async (
 ) => {
 	let response: ResponseInterface;
 	try {
-		const body = req.body;
+		let { body } = req;
 		let reservation = await Reservation.findByPk(body.id);
 		if (!reservation) {
 			response = {
@@ -154,7 +154,7 @@ export const deleteReservation = async (
 	let response: ResponseInterface;
 
 	try {
-		let body = req.body;
+		let { body } = req;
 		let reservation = await Reservation.findByPk(body.id);
 		if (!reservation) {
 			response = {

@@ -1,4 +1,6 @@
-export { default as Owner } from "@/routes/owner";
-export { default as Reservation } from "@/routes/reservation";
-export { default as Auth } from "@/routes/auth";
-export { default as Staff } from "@/routes/staff";
+export { default as OwnerRoutes } from "@/routes/owner";
+export { default as ReservationRoutes } from "@/routes/reservation";
+export { default as AuthRoutes } from "@/routes/auth";
+export { default as StaffRoutes } from "@/routes/staff";
+export { default as RestaurantRoutes } from "@/routes/restaurant";
+export { default as ReviewRoutes } from "@/routes/review";
