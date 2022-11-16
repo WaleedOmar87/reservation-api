@@ -11,7 +11,7 @@ import * as Express from "express";
 /* Initialize router */
 const router: Express.Router = Express.Router();
 
-router.get("/restaurant/all", getAllRestaurants);
+router.get("/restaurant", getAllRestaurants);
 router.get("/restaurant/:id", getRestaurantByID);
 router.get("/restaurant/byowner/:id", getRestaurantsByOwnerID);
 router.post("/restaurant", createRestaurant);

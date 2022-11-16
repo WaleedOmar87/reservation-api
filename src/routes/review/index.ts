@@ -12,7 +12,7 @@ import * as Express from "express";
 /* Initialize router */
 const router: Express.Router = Express.Router();
 
-router.get("/review/all", getAllReviews);
+router.get("/review", getAllReviews);
 router.get("/review/:id", getReviewByID);
 router.get("/review/withcustomer/:id", getReviewWithCustomer);
 router.get("/review/withrestaurant/:id", getReviewWithRestaurant);

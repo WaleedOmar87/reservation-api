@@ -1,0 +1,10 @@
+{
+	"customer_uid" : "",
+	"restaurant_uid": "",
+	"food_rating": 4 ,
+	"service_rating": 5 ,
+	"ambience_rating": 5 ,
+	"value_rating": 4,
+	"comment": "Thanks" ,
+	"date": "Mon, 07 Nov 2022 15:09:55 GMT"
+}

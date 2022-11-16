@@ -5,3 +5,8 @@ export { default as FetchUserInterface } from "@/types/helpers/FetchUser.interfa
 export { default as ResponseInterface } from "@/types/controllers/Response.interface";
 export { default as CreateStaffInterface } from "@/types/controllers/CreateStaff.interface";
 export { default as ErrorInterface } from "@/types/controllers/Error.interface";
+export { OpenTimeInterface } from "@/types/helpers/DateTime.interface";
+export {
+	OrderDetailsInterface,
+	OrderItemsInterface,
+} from "@/types/models/Validate.interface";

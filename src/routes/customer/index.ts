@@ -12,7 +12,7 @@ import { validateResources } from "@/middlewares/index";
 /* Initialize router */
 const router: Express.Router = Express.Router();
 
-router.get("/customer/all", getAllCustomers);
+router.get("/customer", getAllCustomers);
 router.get("/customer/:id", getCustomerByID);
 router.get(
 	"/customer/byreservation/:reservation_id",

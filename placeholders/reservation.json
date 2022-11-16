@@ -1,0 +1,26 @@
+{
+	"customer_uid": "",
+	"restaurant_uid": "",
+	"table_number": 1,
+	"time_slot": "9:30PM - 10:30PM",
+	"party_size": 15,
+	"reservation_date": "2022-11-15T14:54:03.270Z",
+	"order_items": [
+		{
+			"dish_id": "3534shfsfsdfs",
+			"dish_title": "Something Tasty",
+			"dish_description": "Dish Description"
+		},
+		{
+			"dish_id": "something232",
+			"dish_title": "Something Tasty 2",
+			"dish_description": "Dish Description 2"
+		}
+	],
+	"order_details": {
+		"total_price": 2000,
+		"special_request": "Special Request Details"
+	},
+	"occasion": "Birthday",
+	"seating_type": "seating_type_id"
+}

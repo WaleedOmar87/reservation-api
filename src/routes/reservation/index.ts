@@ -10,7 +10,7 @@ import * as Express from "express";
 /* Initialize router */
 const router: Express.Router = Express.Router();
 
-router.get("/reservation/all", getAllReservations);
+router.get("/reservation", getAllReservations);
 router.get("/reservation/:id", getReservationByID);
 router.post("/reservation", createReservation);
 router.patch("/reservation", updateReservation);

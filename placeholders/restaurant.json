@@ -1,38 +1,60 @@
 {
-	"owner_uid": "79c0e799-cdd6-4ca5-ab37-b0e1999e886d",
+	"owner_uid": "41831af1-7555-4dae-86fe-45a2f7bce392",
 	"country": "Egypt",
 	"provenance": "Cairo",
 	"city": "Cairo",
 	"restaurant_name": "Dinner Time",
 	"restaurant_description": "Eat Your Dinner Here",
 	"open_time": ["2023-01-01 09:30", "2023-01-01 22:30"],
-	"price_range": [200 , 500],
+	"price_range": [200, 1000],
 	"cover_image": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2970&q=80",
+	"preview_images": [
+		{
+			"id": "img1",
+			"url": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2970&q=80",
+			"title": "Image One"
+		},
+		{
+			"id": "img2",
+			"url": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2970&q=80",
+			"title": "Image Two"
+		},
+		{
+			"id": "img3",
+			"url": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2970&q=80",
+			"title": "Image Three"
+		}
+	],
 	"restaurant_address": "11 District ,6th October City, Giza",
-	"available_seats": {
-		"standard": {
+	"available_seats": [
+		{
+			"id": "standard",
 			"title": "Standard",
 			"Description": "Standard Seat",
 			"additional_price": 300
 		},
-		"premium": {
+		{
+			"id": "premium",
 			"title": "Premium",
 			"Description": "Premium Seat",
-			"additional_price": 500
+			"additional_price": 300
 		}
-	},
+	],
 	"food_menu": [
 		{
+			"id": "dish_id_1",
 			"title": "Dish One",
 			"description": "Dish One Description",
 			"price": 200
 		},
 		{
+			"id": "dish_id_2",
 			"title": "Dish Two",
 			"description": "Dish Two Description",
 			"price": 500
 		},
 		{
+			"id": "dish_id_2",
 			"title": "Dish Three",
 			"description": "Dish Thee Description",
 			"price": 350
@@ -40,16 +62,19 @@
 	],
 	"seating_types": [
 		{
+			"id": "1",
 			"title": "Seating One",
 			"description": "Seating One Description",
 			"additional_fee": 200
 		},
 		{
+			"id": "2",
 			"title": "Seating Two",
 			"description": "Seating Two Description",
 			"additional_fee": 300
 		},
 		{
+			"id": "3",
 			"title": "Seating Three",
 			"description": "Seating Three Description",
 			"additional_fee": 500
@@ -77,9 +102,16 @@
 	],
 	"tables": [
 		{
+			"id": "table1",
 			"title": "Table One",
 			"description": "Table One Description",
 			"seats": 4
+		},
+		{
+			"id": "table2",
+			"title": "Table Two",
+			"description": "Table Two Description",
+			"seats": 10
 		}
 	],
 	"status": "public"
