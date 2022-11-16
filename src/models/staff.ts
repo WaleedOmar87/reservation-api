@@ -24,7 +24,7 @@ const Staff = database.define(
 			},
 		},
 		phone_number: {
-			type: DataTypes.INTEGER,
+			type: DataTypes.STRING,
 			allowNull: false,
 			unique: true,
 		},
@@ -73,7 +73,7 @@ const Staff = database.define(
 		},
 		indexes: [
 			{
-				fields: ["email"],
+				fields: ["email", "staff_uid"],
 				unique: true,
 			},
 		],
