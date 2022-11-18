@@ -1,4 +1,4 @@
-export default interface CreateStaffInterface {
+export interface CreateStaffInterface {
 	id?: string;
 	staff_name: string;
 	role: string;

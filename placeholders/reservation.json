@@ -1,6 +1,6 @@
 {
-	"customer_uid": "df846d2e-0e98-42ff-9b7d-4ef021760c8b",
-	"restaurant_uid": "665e919a-d7ef-4063-b2ff-82b2aa944e2c",
+	"customer_uid": "5b114e8e-7246-48a9-b016-e4a0ae3fd5b9",
+	"restaurant_uid": "c067e914-f6f4-415f-a8c1-f4aabe35dc59",
 	"table_id": "table1",
 	"seating_type": "1",
 	"time_slot": ["2022-11-30T20:30" , "2022-11-30T21:30"],

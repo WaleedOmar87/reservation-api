@@ -1,6 +1,6 @@
 import { UUIDVersion } from "express-validator/src/options";
 import { DataTypes , UUIDV4 } from "sequelize";
-export default interface OwnerInterface {
+export interface OwnerInterface {
 	owner_uid: typeof UUIDV4;
 	owner_name: DataTypes.StringDataType;
 	owner_address: DataTypes.StringDataType;

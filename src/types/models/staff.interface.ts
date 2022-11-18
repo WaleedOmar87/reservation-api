@@ -1,6 +1,6 @@
 import { UUIDVersion } from "express-validator/src/options";
 import { IntegerDataType, StringDataType } from "sequelize";
-export default interface StaffInterface {
+export interface StaffInterface {
 	staff_uid: UUIDVersion;
 	staff_name: StringDataType;
 	role: StringDataType;

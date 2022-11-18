@@ -1,4 +1,4 @@
-export default interface fetchUserInterface {
+export interface FetchUserInterface {
 	id?: string;
 	validationKey?: string;
 	type: string;

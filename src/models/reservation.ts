@@ -1,8 +1,7 @@
 const { DataTypes } = require("sequelize");
 import database from "@/utils/database";
 import { formatTimeRange } from "@/helpers/index";
-import { validateJsonField } from "@/utils/validate";
-import { ReservationTimeSlotInterface, OrderItemsInterface } from "../types";
+import { ReservationInterface } from "../types";
 
 const Reservation = database.define(
 	"Reservation",
@@ -51,7 +50,7 @@ const Reservation = database.define(
 		},
 		order_items: {
 			type: DataTypes.JSON,
-			allowNull: false
+			allowNull: false,
 		},
 		order_total: {
 			type: DataTypes.INTEGER,
@@ -78,14 +77,13 @@ const Reservation = database.define(
 	},
 	{
 		hooks: {
-			beforeCreate: (reservation: ReservationTimeSlotInterface) => {
-				console.log(formatTimeRange(reservation.time_slot));
+			beforeCreate: (reservation: ReservationInterface) => {
 				// Validate and update time_slot
 				if (reservation.time_slot) {
 					reservation.time_slot = formatTimeRange(reservation.time_slot);
 				}
 			},
-			beforeUpdate: (reservation: ReservationTimeSlotInterface) => {
+			beforeUpdate: (reservation: ReservationInterface) => {
 				if (reservation.time_slot) {
 					reservation.time_slot = formatTimeRange(reservation.time_slot);
 				}

@@ -1,6 +1,6 @@
 import { UUIDVersion } from "express-validator/src/options";
 import { DataTypes } from "sequelize";
-export default interface CustomerInterface {
+export interface CustomerInterface {
 	customer_uid?: UUIDVersion;
 	customer_name?: DataTypes.StringDataType;
 	customer_company?: DataTypes.StringDataType;

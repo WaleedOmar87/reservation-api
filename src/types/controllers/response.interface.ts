@@ -1,4 +1,4 @@
-export default interface ResponseInterface {
+export interface ResponseInterface {
 	message?: string;
 	data?: [];
 	success?: boolean;
