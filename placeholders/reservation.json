@@ -1,26 +1,13 @@
 {
-	"customer_uid": "",
-	"restaurant_uid": "",
-	"table_number": 1,
-	"time_slot": "9:30PM - 10:30PM",
+	"customer_uid": "df846d2e-0e98-42ff-9b7d-4ef021760c8b",
+	"restaurant_uid": "665e919a-d7ef-4063-b2ff-82b2aa944e2c",
+	"table_id": "table1",
+	"seating_type": "1",
+	"time_slot": ["2022-11-30T20:30" , "2022-11-30T21:30"],
 	"party_size": 15,
-	"reservation_date": "2022-11-15T14:54:03.270Z",
-	"order_items": [
-		{
-			"dish_id": "3534shfsfsdfs",
-			"dish_title": "Something Tasty",
-			"dish_description": "Dish Description"
-		},
-		{
-			"dish_id": "something232",
-			"dish_title": "Something Tasty 2",
-			"dish_description": "Dish Description 2"
-		}
-	],
-	"order_details": {
-		"total_price": 2000,
-		"special_request": "Special Request Details"
-	},
-	"occasion": "Birthday",
-	"seating_type": "seating_type_id"
+	"reservation_date": "2022-11-30T20:30",
+	"order_items": ["dish_id_1" , "dish_id_3"],
+	"order_total": 2000 ,
+	"order_special_request": "Special Request Details" ,
+	"occasion": "Birthday"
 }

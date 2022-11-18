@@ -43,8 +43,15 @@ const Restaurant = database.define(
 			allowNull: false,
 		},
 		open_time: {
-			type: DataTypes.RANGE(DataTypes.DATEONLY),
+			type: DataTypes.JSON,
 			allowNull: false,
+			validate: {
+				customValidator(openTime: []) {
+					if (openTime.length < 1) {
+						throw new Error("Invalid Open / Close Time");
+					}
+				},
+			},
 		},
 		price_range: {
 			type: DataTypes.RANGE(DataTypes.INTEGER),
@@ -66,18 +73,6 @@ const Restaurant = database.define(
 		restaurant_address: {
 			type: DataTypes.STRING,
 			allowNull: false,
-		},
-		available_seats: {
-			type: DataTypes.JSON,
-			allowNull: false,
-			validate: {
-				customValidator(availableSeats: AvailableSeatsInterface[]) {
-					return validateJsonField(availableSeats, [
-						"total_price",
-						"special_request",
-					]);
-				},
-			},
 		},
 		food_menu: {
 			type: DataTypes.JSON,
@@ -136,7 +131,7 @@ const Restaurant = database.define(
 			allowNull: false,
 			validate: {
 				customValidator(tables: TablesInterface[]) {
-					return validateJsonField(tables, ["id", "title", "seats"]);
+					return validateJsonField(tables, ["id", "title", "max_seats"]);
 				},
 			},
 		},
@@ -149,18 +144,13 @@ const Restaurant = database.define(
 	},
 	{
 		hooks: {
-			// Update ranges
+			// Validate and update open_time and price_range values
 			beforeCreate: async (restaurant: {
-				open_time?: any;
-				price_range?: any;
+				open_time?: [];
+				price_range?: any[];
 			}) => {
-				// Update Open Time
-				if (restaurant.open_time) {
-					const timeRange = [
-						{ value: new Date(restaurant.open_time[0]) },
-						{ value: new Date(restaurant.open_time[1]) },
-					];
-					restaurant.open_time = timeRange;
+				if (restaurant.open_time && restaurant.open_time.length < 1) {
+					throw new Error("Invalid Open / Close Time");
 				}
 
 				// Update Price Range
@@ -172,11 +162,9 @@ const Restaurant = database.define(
 					restaurant.price_range = priceRange;
 				}
 			},
-			beforeUpdate: async (restaurant: { open_time?: any }) => {
-				if (restaurant.open_time) {
-					const timeRange = createOpenTime(restaurant.open_time);
-					log.info(`Current rage: ${JSON.stringify(timeRange)}`);
-					restaurant.open_time = timeRange;
+			beforeUpdate: async (restaurant: { open_time?: [] }) => {
+				if (restaurant.open_time && restaurant.open_time.length < 1) {
+					throw new Error("Invalid Open / Close Time");
 				}
 			},
 		},

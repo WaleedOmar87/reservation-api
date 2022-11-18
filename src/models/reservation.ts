@@ -1,8 +1,8 @@
 const { DataTypes } = require("sequelize");
 import database from "@/utils/database";
-import { updateTimeSlot } from "@/helpers/index";
+import { formatTimeRange } from "@/helpers/index";
 import { validateJsonField } from "@/utils/validate";
-import { OrderDetailsInterface, OrderItemsInterface } from "../types";
+import { ReservationTimeSlotInterface, OrderItemsInterface } from "../types";
 
 const Reservation = database.define(
 	"Reservation",
@@ -15,7 +15,7 @@ const Reservation = database.define(
 			defaultValue: DataTypes.UUIDV4,
 		},
 		table_id: {
-			type: DataTypes.INTEGER,
+			type: DataTypes.STRING,
 			allowNull: false,
 			validate: {
 				notEmpty: true,
@@ -51,28 +51,7 @@ const Reservation = database.define(
 		},
 		order_items: {
 			type: DataTypes.JSON,
-			allowNull: false,
-			validate: {
-				customValidator(orderItems: OrderItemsInterface[]) {
-					return validateJsonField(orderItems, [
-						"dish_id",
-						"dish_title",
-						"dish_description",
-					]);
-				},
-			},
-		},
-		order_details: {
-			type: DataTypes.JSON,
-			allowNull: false,
-			validate: {
-				customValidator(orderDetails: OrderDetailsInterface) {
-					return validateJsonField(orderDetails, [
-						"total_price",
-						"special_request",
-					]);
-				},
-			},
+			allowNull: false
 		},
 		order_total: {
 			type: DataTypes.INTEGER,
@@ -99,15 +78,16 @@ const Reservation = database.define(
 	},
 	{
 		hooks: {
-			beforeCreate: (reservation: { time_slot?: object[] }) => {
+			beforeCreate: (reservation: ReservationTimeSlotInterface) => {
+				console.log(formatTimeRange(reservation.time_slot));
 				// Validate and update time_slot
 				if (reservation.time_slot) {
-					reservation.time_slot = updateTimeSlot(reservation.time_slot);
+					reservation.time_slot = formatTimeRange(reservation.time_slot);
 				}
 			},
-			beforeUpdate: (reservation: { time_slot?: object[] }) => {
+			beforeUpdate: (reservation: ReservationTimeSlotInterface) => {
 				if (reservation.time_slot) {
-					reservation.time_slot = updateTimeSlot(reservation.time_slot);
+					reservation.time_slot = formatTimeRange(reservation.time_slot);
 				}
 			},
 		},

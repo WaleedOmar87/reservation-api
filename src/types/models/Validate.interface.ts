@@ -39,3 +39,6 @@ export interface TablesInterface extends OtherInformationInterface {
 	id: string;
 	seats: number;
 }
+export interface ReservationTimeSlotInterface {
+	time_slot: object[] | string[];
+}

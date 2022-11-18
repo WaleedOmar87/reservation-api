@@ -9,4 +9,5 @@ export { OpenTimeInterface } from "@/types/helpers/DateTime.interface";
 export {
 	OrderDetailsInterface,
 	OrderItemsInterface,
+	ReservationTimeSlotInterface
 } from "@/types/models/Validate.interface";
