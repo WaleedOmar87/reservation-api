@@ -1,37 +1,29 @@
 import { NextFunction, Response, Request } from "express";
-import { Customer, Reservation } from "@/models/index";
+import { nanoid } from "nanoid";
+import { sendMail } from "@/utils/mailer";
+import { User, Reservation } from "@/models/index";
 import { ResponseInterface, ErrorInterface } from "@/types/index";
 import { log } from "@/utils/logger";
-import { sendMail } from "@/utils/mailer";
-import { nanoid } from "nanoid";
 
-// Get all customers
-export const getAllCustomers = async (
+/* Get Users */
+export const getUsers = async (
 	req: Request,
 	res: Response,
 	next: NextFunction
 ) => {
 	let response: ResponseInterface;
 	try {
-		const customers = await Customer.findAll();
-		if (!customers || customers.length < 1) {
-			response = {
-				message: "No Customers Were Found",
-				code: 400,
-				success: false,
-			};
-		} else {
-			response = {
-				data: customers,
-				message: "Customers Found ",
-				code: 200,
-				success: true,
-			};
-		}
-	} catch (error: ErrorInterface | any) {
-		log.error(error);
+		let users = await User.findAll();
 		response = {
-			message: `Unexpected Error: ${error.message}`,
+			message: "Fetched All Users",
+			data: users,
+			success: true,
+			code: 200,
+		};
+	} catch (error: ErrorInterface | any) {
+		log.error(`Error: ${error.message}`);
+		response = {
+			message: error.message,
 			code: 500,
 			success: false,
 		};
@@ -40,8 +32,8 @@ export const getAllCustomers = async (
 	next();
 };
 
-/* Get Customer By ID */
-export const getCustomerByID = async (
+// Get Single User
+export const getUser = async (
 	req: Request,
 	res: Response,
 	next: NextFunction
@@ -49,68 +41,23 @@ export const getCustomerByID = async (
 	let response: ResponseInterface;
 	try {
 		let { id } = req.params;
-		const customer = await Customer.findByPK(id);
-		if (!customer) {
+		let user = await User.findByPk(id);
+
+		if (!getUser) {
 			response = {
 				message: "User Not Found",
-				success: false,
-				code: 400,
-			};
-		} else {
-			response = {
-				data: customer,
-				message: "User were found",
-				code: 200,
-				success: true,
-			};
-		}
-	} catch (error: ErrorInterface | any) {
-		log.error(error);
-		response = {
-			message: `Error: ${error.message}`,
-			success: false,
-			code: 500,
-		};
-	}
-	res.status(response.code).json(response);
-	next();
-};
-
-// Get reservation with customer
-export const getReservationWithCustomer = async (
-	req: Request,
-	res: Response,
-	next: NextFunction
-) => {
-	let response: ResponseInterface;
-	try {
-		let { id } = req.params;
-		let reservationWithCustomer = Reservation.findAll({
-			where: {
-				reservation_uid: id,
-			},
-			include: [
-				{
-					model: Customer,
-					as: "Customer",
-				},
-			],
-		});
-		if (!reservationWithCustomer) {
-			response = {
-				message: "User not found",
 				code: 400,
 				success: false,
 			};
 		} else {
 			response = {
-				data: reservationWithCustomer,
-				success: true,
+				message: "User Found",
+				data: user,
 				code: 200,
+				success: true,
 			};
 		}
 	} catch (error: ErrorInterface | any) {
-		log.error(error);
 		response = {
 			message: `Error: ${error.message}`,
 			code: 500,
@@ -121,8 +68,8 @@ export const getReservationWithCustomer = async (
 	next();
 };
 
-// Create customer
-export const createCustomer = async (
+// Create New User
+export const createUser = async (
 	req: Request,
 	res: Response,
 	next: NextFunction
@@ -130,7 +77,7 @@ export const createCustomer = async (
 	let response: ResponseInterface;
 	try {
 		let { body } = req;
-		let newCustomer = await Customer.create({
+		let newUser = await User.create({
 			...body,
 			emailValidationKey: nanoid(),
 		});
@@ -138,9 +85,9 @@ export const createCustomer = async (
 		// Send email with verification code to registered user
 		await sendMail({
 			from: process.env.USER_EMAIL,
-			to: newCustomer.email,
+			to: newUser.email,
 			subject: "Confirm Your Account",
-			text: `Hello: ${newCustomer.customer_name}, Please verify you account using the following code: ${newCustomer.emailValidationKey}`,
+			text: `Hello: ${newUser.user_name}, Please verify you account using the following code: ${newUser.emailValidationKey}`,
 		});
 
 		response = {
@@ -159,8 +106,7 @@ export const createCustomer = async (
 	next();
 };
 
-// Update Customer
-export const updateCustomer = async (
+export const updateUser = async (
 	req: Request,
 	res: Response,
 	next: NextFunction
@@ -168,16 +114,16 @@ export const updateCustomer = async (
 	let response: ResponseInterface;
 	try {
 		let { body } = req;
-		let customer = await Customer.findByPk(body.id);
-		if (!customer) {
+		let user = await User.findByPk(body.id);
+		if (!user) {
 			response = {
 				message: "User Not Found",
 				code: 400,
 				success: false,
 			};
 		} else {
-			await customer.update({ ...body });
-			await customer.save();
+			await user.update({ ...body });
+			await user.save();
 			response = {
 				message: "User Updated Successfully",
 				code: 200,
@@ -195,8 +141,7 @@ export const updateCustomer = async (
 	next();
 };
 
-// Delete customer
-export const deleteCustomer = async (
+export const deleteUser = async (
 	req: Request,
 	res: Response,
 	next: NextFunction
@@ -204,16 +149,16 @@ export const deleteCustomer = async (
 	let response: ResponseInterface;
 
 	try {
-		let { id } = req.body;
-		let customer = await Customer.findByPk(id);
-		if (!customer) {
+		let { body } = req;
+		let user = await User.findByPk(body.id);
+		if (!user) {
 			response = {
 				message: "User Not Found",
 				success: false,
 				code: 400,
 			};
 		} else {
-			await customer.destroy();
+			await User.destroy();
 			response = {
 				message: "User Deleted Successfully",
 				code: 200,
@@ -221,6 +166,51 @@ export const deleteCustomer = async (
 			};
 		}
 	} catch (error: ErrorInterface | any) {
+		response = {
+			message: "Something Went Wrong",
+			code: 500,
+			success: false,
+		};
+	}
+	res.status(response.code).json(response);
+	next();
+};
+
+// Get user by reservation id
+export const getUserWithReservation = (
+	req: Request,
+	res: Response,
+	next: NextFunction
+) => {
+	let response: ResponseInterface;
+	try {
+		let { id } = req.params;
+		let userWithReservation = Reservation.findAll({
+			where: {
+				reservation_uid: id,
+			},
+			include: [
+				{
+					model: User,
+					as: "User",
+				},
+			],
+		});
+		if (!userWithReservation) {
+			response = {
+				message: "User not found",
+				code: 400,
+				success: false,
+			};
+		} else {
+			response = {
+				data: userWithReservation,
+				success: true,
+				code: 200,
+			};
+		}
+	} catch (error: ErrorInterface | any) {
+		log.error(error);
 		response = {
 			message: `Error: ${error.message}`,
 			code: 500,

@@ -2,21 +2,21 @@ const { DataTypes } = require("sequelize");
 import database from "@/utils/database";
 const bcrypt = require("bcryptjs");
 
-const Customer = database.define(
-	"Customer",
+export const User = database.define(
+	"User",
 	{
-		customer_uid: {
+		user_uid: {
 			type: DataTypes.UUID,
 			allowNull: false,
 			primaryKey: true,
 			unique: true,
 			defaultValue: DataTypes.UUIDV4,
 		},
-		customer_name: {
+		user_name: {
 			type: DataTypes.STRING,
 			allowNull: false,
 		},
-		customer_company: {
+		user_company: {
 			type: DataTypes.STRING,
 			allowNull: true,
 		},
@@ -24,32 +24,39 @@ const Customer = database.define(
 			type: DataTypes.INTEGER,
 			allowNull: false,
 		},
-		customer_address: {
+		user_role: {
+			type: DataTypes.STRING,
+			allowNull: false,
+			validate: {
+				is: /customer|owner|staff|admin/g,
+			},
+		},
+		user_address: {
 			type: DataTypes.STRING,
 			allowNull: false,
 		},
-		country: {
+		user_country: {
 			type: DataTypes.STRING,
 			allowNull: false,
 		},
-		provenance: {
+		user_provenance: {
 			type: DataTypes.STRING,
 			allowNull: false,
 		},
-		city: {
+		user_city: {
 			type: DataTypes.STRING,
 			allowNull: false,
 		},
-		phone_number: {
+		user_phone_number: {
 			type: DataTypes.INTEGER,
 			allowNull: false,
 			unique: true,
 		},
-		age: {
+		user_age: {
 			type: DataTypes.INTEGER,
 			allowNull: false,
 		},
-		email: {
+		user_email: {
 			type: DataTypes.STRING,
 			allowNull: false,
 			unique: true,
@@ -59,11 +66,10 @@ const Customer = database.define(
 			unique: true,
 			allowNull: true,
 		},
-		password: {
+		user_password: {
 			type: DataTypes.STRING,
 			allowNull: false,
 		},
-
 		passwordResetKey: {
 			type: DataTypes.STRING,
 			allowNull: true,
@@ -95,11 +101,13 @@ const Customer = database.define(
 		},
 		indexes: [
 			{
-				fields: ["email"],
+				fields: ["user_uid", "user_email"],
 				unique: true,
+			},
+			{
+				fields: ["user_role"],
+				unique: false,
 			},
 		],
 	}
 );
-
-export default Customer;
