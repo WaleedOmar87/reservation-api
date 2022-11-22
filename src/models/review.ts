@@ -1,6 +1,6 @@
 const { DataTypes } = require("sequelize");
 import database from "@/utils/database";
-const Review = database.define("Review", {
+export const Review = database.define("Review", {
 	review_uid: {
 		type: DataTypes.UUID,
 		unique: true,
@@ -49,5 +49,3 @@ const Review = database.define("Review", {
 		allowNull: false,
 	},
 });
-
-export default Review;

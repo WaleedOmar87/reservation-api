@@ -105,3 +105,6 @@ dist
 
 # Custom config
 src/config/index.ts
+
+# public keys
+pub

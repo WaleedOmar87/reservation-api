@@ -1,6 +1,9 @@
 import jwt from "jsonwebtoken";
-import { jwtConfig } from "@/config/index";
+import { Config } from "@/config/index";
 import { log } from "@/utils/logger";
+
+// Get JWT Config
+const jwtConfig = Config.jwt;
 
 // Sign a new token
 export const signJWT = (

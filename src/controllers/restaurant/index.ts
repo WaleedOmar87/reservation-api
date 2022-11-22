@@ -1,4 +1,4 @@
-import { Owner, Restaurant } from "@/models/index";
+import { Restaurant, User } from "@/models/index";
 import { NextFunction, Response, Request } from "express";
 import { log } from "@/utils/logger";
 import { ResponseInterface, ErrorInterface } from "@/types/index";
@@ -34,7 +34,6 @@ export const getAllRestaurants = async (
 			success: false,
 		};
 	}
-	log.info(response);
 	res.status(response.code).json(response);
 	next();
 };
@@ -93,31 +92,26 @@ export const getRestaurantsByOwnerID = async (
 				owner_uid: id,
 			},
 			include: {
-				model: Owner,
-				as: "Owner",
+				model: User,
+				as: "User",
 			},
 		});
 		if (!restaurants || restaurants.length < 1) {
-			response = {
+			throw {
 				message: "No Restaurants Found",
 				code: 400,
 				success: false,
 			};
-		} else {
-			response = {
-				message: `Found All Restaurants Belongs To ${restaurants[0].Owner.owner_name}`,
-				data: restaurants,
-				code: 200,
-				success: true,
-			};
 		}
-	} catch (error: ErrorInterface | any) {
-		log.error(error.message);
 		response = {
-			message: `Error: ${error.message}`,
-			code: 500,
-			success: false,
+			message: `Found All Restaurants Belongs To ${restaurants[0].Owner.owner_name}`,
+			data: restaurants,
+			code: 200,
+			success: true,
 		};
+	} catch (Error: ResponseInterface | any) {
+		log.error(Error);
+		response = Error;
 	}
 	res.status(response.code).json(response);
 	next();
@@ -135,18 +129,21 @@ export const createRestaurant = async (
 		let newRestaurant = await Restaurant.create({
 			...body,
 		});
-
+		if (!newRestaurant) {
+			throw {
+				message: "Failed To Create New Restaurant",
+				code: 500,
+				successful: false,
+			};
+		}
 		response = {
 			message: "Restaurant Created Successfully",
 			success: true,
 			code: 200,
 		};
-	} catch (error: ErrorInterface | any) {
-		response = {
-			message: error.message,
-			success: true,
-			code: 500,
-		};
+	} catch (Error: ResponseInterface | any) {
+		log.error(Error);
+		response = Error;
 	}
 	res.status(response.code).json(response);
 	next();
@@ -163,26 +160,21 @@ export const updateRestaurant = async (
 		let { body } = req;
 		let restaurant = await Restaurant.findByPk(body.id);
 		if (!restaurant) {
-			response = {
+			throw {
 				message: "Restaurant Not Found",
 				code: 400,
 				success: false,
 			};
-		} else {
-			await restaurant.update({ ...body });
-			await restaurant.save();
-			response = {
-				message: "Restaurant Updated Successfully",
-				code: 200,
-				success: true,
-			};
 		}
-	} catch (error: ErrorInterface | any) {
+		await restaurant.update({ ...body });
+		await restaurant.save();
 		response = {
-			message: `Error: ${error.message}`,
-			code: 500,
-			success: false,
+			message: "Restaurant Updated Successfully",
+			code: 200,
+			success: true,
 		};
+	} catch (Error: ResponseInterface | any) {
+		response = Error;
 	}
 	res.status(response.code).json(response);
 	next();
@@ -199,25 +191,21 @@ export const deleteRestaurant = async (
 		let { body } = req;
 		let restaurant = await Restaurant.findByPk(body.id);
 		if (!restaurant) {
-			response = {
+			throw {
 				message: "Restaurant Not Found",
 				success: false,
 				code: 400,
 			};
-		} else {
-			await restaurant.destroy();
-			response = {
-				message: "Restaurant Deleted Successfully",
-				code: 200,
-				success: true,
-			};
 		}
-	} catch (error: ErrorInterface | any) {
+		await restaurant.destroy();
 		response = {
-			message: `Error: ${error.message}`,
-			code: 500,
-			success: false,
+			message: "Restaurant Deleted Successfully",
+			code: 200,
+			success: true,
 		};
+	} catch (Error: ResponseInterface | any) {
+		log.error(Error);
+		response = Error;
 	}
 	res.status(response.code).json(response);
 	next();

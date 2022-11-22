@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { Review, Restaurant, Customer } from "@/models/index";
+import { Review, Restaurant, User } from "@/models/index";
 import { log } from "@/utils/logger";
 import { ResponseInterface, ErrorInterface } from "@/types/index";
 
@@ -13,26 +13,21 @@ export const getAllReviews = async (
 	try {
 		const reviews = await Review.findAll();
 		if (!reviews || reviews.length < 1) {
-			response = {
+			throw {
 				message: "No Reviews Were Found",
 				code: 400,
 				success: false,
 			};
-		} else {
-			response = {
-				data: reviews,
-				message: "Reviews Found ",
-				code: 200,
-				success: true,
-			};
 		}
-	} catch (error: ErrorInterface | any) {
-		log.error(error);
 		response = {
-			message: `Unexpected Error: ${error.message}`,
-			code: 500,
-			success: false,
+			data: reviews,
+			message: "Reviews Found ",
+			code: 200,
+			success: true,
 		};
+	} catch (Error: ResponseInterface | any) {
+		log.error(Error);
+		response = Error;
 	}
 	res.status(response.code).json(response);
 	next();
@@ -49,26 +44,21 @@ export const getReviewByID = async (
 		let { id } = req.params;
 		const review = await Review.findByPK(id);
 		if (!review) {
-			response = {
+			throw {
 				message: "Review Not Found",
 				success: false,
 				code: 400,
 			};
-		} else {
-			response = {
-				data: review,
-				message: "Review were found",
-				code: 200,
-				success: true,
-			};
 		}
-	} catch (error: ErrorInterface | any) {
-		log.error(error);
 		response = {
-			message: `Error: ${error.message}`,
-			success: false,
-			code: 500,
+			data: review,
+			message: "Review were found",
+			code: 200,
+			success: true,
 		};
+	} catch (Error: ResponseInterface | any) {
+		log.error(Error);
+		response = Error;
 	}
 	res.status(response.code).json(response);
 	next();
@@ -86,17 +76,20 @@ export const createReview = async (
 		let newReview = await Review.create({
 			...body,
 		});
+		if (!newReview) {
+			throw {
+				message: "Failed To Create New Review",
+				code: 500,
+				successful: false,
+			};
+		}
 		response = {
 			message: "Review Created Successfully",
 			success: true,
 			code: 200,
 		};
-	} catch (error: ErrorInterface | any) {
-		response = {
-			message: error.message,
-			success: true,
-			code: 500,
-		};
+	} catch (Error: ResponseInterface | any) {
+		response = Error;
 	}
 	res.status(response.code).json(response);
 	next();
@@ -123,25 +116,20 @@ export const getReviewWithRestaurant = async (
 			],
 		});
 		if (!reviewWithRestaurant) {
-			response = {
+			throw {
 				message: "Review not found",
 				code: 400,
 				success: false,
 			};
-		} else {
-			response = {
-				data: reviewWithRestaurant,
-				success: true,
-				code: 200,
-			};
 		}
-	} catch (error: ErrorInterface | any) {
-		log.error(error);
 		response = {
-			message: `Error: ${error.message}`,
-			code: 500,
-			success: false,
+			data: reviewWithRestaurant,
+			success: true,
+			code: 200,
 		};
+	} catch (Error: ResponseInterface | any) {
+		log.error(Error);
+		response = Error;
 	}
 	res.status(response.code).json(response);
 	next();
@@ -162,31 +150,26 @@ export const getReviewWithCustomer = async (
 			},
 			include: [
 				{
-					model: Customer,
-					as: "Customer",
+					model: User,
+					as: "User",
 				},
 			],
 		});
 		if (!reviewWithCustomer) {
-			response = {
-				message: "Review not found",
+			throw {
+				message: "Cannot Find Review",
 				code: 400,
-				success: false,
-			};
-		} else {
-			response = {
-				data: reviewWithCustomer,
 				success: true,
-				code: 200,
 			};
 		}
-	} catch (error: ErrorInterface | any) {
-		log.error(error);
 		response = {
-			message: `Error: ${error.message}`,
-			code: 500,
-			success: false,
+			data: reviewWithCustomer,
+			success: true,
+			code: 200,
 		};
+	} catch (Error: ResponseInterface | any) {
+		log.error(Error);
+		response = Error;
 	}
 	res.status(response.code).json(response);
 	next();
@@ -203,26 +186,22 @@ export const updateReview = async (
 		let { body } = req;
 		let review = await Review.findByPk(body.id);
 		if (!review) {
-			response = {
+			throw {
 				message: "Review Not Found",
 				code: 400,
 				success: false,
 			};
-		} else {
-			await review.update({ ...body });
-			await review.save();
-			response = {
-				message: "Review Updated Successfully",
-				code: 200,
-				success: true,
-			};
 		}
-	} catch (error: ErrorInterface | any) {
+		await review.update({ ...body });
+		await review.save();
 		response = {
-			message: `Error: ${error.message}`,
-			code: 500,
-			success: false,
+			message: "Review Updated Successfully",
+			code: 200,
+			success: true,
 		};
+	} catch (Error: ResponseInterface | any) {
+		log.error(Error);
+		response = Error;
 	}
 	res.status(response.code).json(response);
 	next();
@@ -239,25 +218,21 @@ export const deleteReview = async (
 		let { body } = req;
 		let review = await Review.findByPk(body.id);
 		if (!review) {
-			response = {
+			throw {
 				message: "Review Not Found",
 				success: false,
 				code: 400,
 			};
-		} else {
-			await review.destroy();
-			response = {
-				message: "Review Deleted Successfully",
-				code: 200,
-				success: true,
-			};
 		}
-	} catch (error: ErrorInterface | any) {
+		await review.destroy();
 		response = {
-			message: `Error: ${error.message}`,
-			code: 500,
-			success: false,
+			message: "Review Deleted Successfully",
+			code: 200,
+			success: true,
 		};
+	} catch (Error: ResponseInterface | any) {
+		log.error(Error);
+		response = Error;
 	}
 	res.status(response.code).json(response);
 	next();

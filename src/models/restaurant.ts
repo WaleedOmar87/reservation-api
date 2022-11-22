@@ -1,10 +1,7 @@
 const { DataTypes } = require("sequelize");
 import database from "@/utils/database";
-import { createOpenTime } from "@/utils/dateTime";
-import { log } from "@/utils/logger";
 import {
 	PreviewImagesInterface,
-	AvailableSeatsInterface,
 	DishInterface,
 	SeatInterface,
 	OtherInformationInterface,
@@ -12,7 +9,7 @@ import {
 } from "@/types/models/Validate.interface";
 import { validateJsonField } from "@/utils/validate";
 
-const Restaurant = database.define(
+export const Restaurant = database.define(
 	"Restaurant",
 	{
 		restaurant_uid: {
@@ -179,5 +176,3 @@ const Restaurant = database.define(
 		],
 	}
 );
-
-export default Restaurant;

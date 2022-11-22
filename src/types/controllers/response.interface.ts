@@ -1,6 +1,6 @@
 export interface ResponseInterface {
 	message?: string;
-	data?: [];
+	data?: string[] | object[];
 	success?: boolean;
 	code: number;
 }

@@ -13,24 +13,21 @@ export const getAllReservations = async (
 	try {
 		let reservations = await Reservation.findAll();
 		if (!reservations || reservations.length < 1) {
-			response = {
+			throw {
 				message: "No Reservations Were Found",
 				code: 400,
 				success: true,
 			};
 		} else {
-			response = {
+			throw {
 				data: reservations,
 				message: "Found Reservations",
 				code: 200,
 			};
 		}
-	} catch (error: ErrorInterface | any) {
-		response = {
-			message: `Error: ${error.message}`,
-			code: 500,
-			success: false,
-		};
+	} catch (Error: ResponseInterface | any) {
+		log.error(Error);
+		response = Error;
 	}
 	res.status(response.code).json(response);
 	next();
@@ -47,26 +44,22 @@ export const getReservationByID = async (
 		const { id } = req.params;
 		const reservation = await Reservation.findByPK(id);
 		if (!reservation) {
-			response = {
+			throw {
 				message: "Reservation Not Found",
 				success: false,
 				code: 400,
 			};
 		} else {
-			response = {
+			throw {
 				data: reservation,
 				message: "Reservation were found",
 				code: 200,
 				success: true,
 			};
 		}
-	} catch (error: ErrorInterface | any) {
-		log.error(error);
-		response = {
-			message: `Error: ${error.message}`,
-			success: false,
-			code: 500,
-		};
+	} catch (Error: ResponseInterface | any) {
+		log.error(Error);
+		response = Error;
 	}
 	res.status(response.code).json(response);
 	next();
@@ -84,26 +77,21 @@ export const createReservation = async (
 		let reservation = await Reservation.create({
 			...body,
 		});
-
 		if (!reservation) {
-			response = {
+			throw {
 				message: "Error Creating Reservation",
 				code: 500,
 				success: false,
 			};
-		} else {
-			response = {
-				message: "Reservation Created Successfully",
-				success: true,
-				code: 200,
-			};
 		}
-	} catch (error: ErrorInterface | any) {
 		response = {
-			message: `Error: ${error.message}`,
+			message: "Reservation Created Successfully",
 			success: true,
-			code: 500,
+			code: 200,
 		};
+	} catch (Error: ResponseInterface | any) {
+		log.error(Error);
+		response = Error;
 	}
 	res.status(response.code).json(response);
 	next();
@@ -120,26 +108,22 @@ export const updateReservation = async (
 		let { body } = req;
 		let reservation = await Reservation.findByPk(body.id);
 		if (!reservation) {
-			response = {
+			throw {
 				message: "Reservation Not Found",
 				code: 400,
 				success: false,
 			};
-		} else {
-			await reservation.update({ ...body });
-			await reservation.save();
-			response = {
-				message: "Reservation Updated Successfully",
-				code: 200,
-				success: true,
-			};
 		}
-	} catch (error: ErrorInterface | any) {
+		await reservation.update({ ...body });
+		await reservation.save();
 		response = {
-			message: `Failed To Update Reservation ${error.message}`,
-			code: 500,
-			success: false,
+			message: "Reservation Updated Successfully",
+			code: 200,
+			success: true,
 		};
+	} catch (Error: ResponseInterface | any) {
+		log.error(Error);
+		response = Error;
 	}
 	res.status(response.code).json(response);
 	next();
@@ -157,25 +141,21 @@ export const deleteReservation = async (
 		let { body } = req;
 		let reservation = await Reservation.findByPk(body.id);
 		if (!reservation) {
-			response = {
+			throw {
 				message: "Reservation Not Found",
 				success: false,
 				code: 400,
 			};
-		} else {
-			await reservation.destroy();
-			response = {
-				message: "Reservation Deleted Successfully",
-				code: 200,
-				success: true,
-			};
 		}
-	} catch (error: ErrorInterface | any) {
+		await reservation.destroy();
 		response = {
-			message: `Error: ${error.message}`,
-			code: 500,
-			success: false,
+			message: "Reservation Deleted Successfully",
+			code: 200,
+			success: true,
 		};
+	} catch (Error: ResponseInterface | any) {
+		log.error(Error);
+		response = Error;
 	}
 	res.status(response.code).json(response);
 	next();

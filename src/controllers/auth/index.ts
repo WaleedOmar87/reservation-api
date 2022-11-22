@@ -4,6 +4,8 @@ import { ResponseInterface } from "@/types/index";
 import { log } from "@/utils/logger";
 import { nanoid } from "nanoid";
 import { sendMail } from "@/utils/mailer";
+import bcrypt from "bcrypt";
+import { Session, User } from "@/models/index";
 require("dotenv").config();
 
 /* Verify Email Address */
@@ -21,36 +23,30 @@ export const verifyEmailAddress = async (
 			validationKey: req.params.validation_key,
 		});
 		if (user == null) {
-			response = {
-				message: "User could not be found",
+			throw {
+				message: "User Could Not Be Found",
 				code: 400,
 				success: false,
 			};
-		} else {
-			// If user is found and validation key is valid
-			if (user.emailValidationKey === req.params.validationKey) {
-				user.emailValidationKey = "";
-				user.email_verified = true;
-				user.save();
-				response = {
-					message: "User Updated",
-					code: 200,
-					success: true,
-				};
-			} else {
-				response = {
-					message: "Invalid Validation Key",
-					code: 404,
-					success: false,
-				};
-			}
 		}
-	} catch (error: { message?: string; code?: number } | any) {
+		if (user.emailValidationKey !== req.params.validationKey) {
+			throw {
+				message: "Invalid Key",
+				code: 403,
+				success: false,
+			};
+		}
+		user.emailValidationKey = "";
+		user.email_verified = true;
+		user.save();
 		response = {
-			code: 500,
-			message: error.message,
-			success: false,
+			message: "User Updated",
+			code: 200,
+			success: true,
 		};
+	} catch (Error: ResponseInterface | any) {
+		log.error(Error);
+		response = Error;
 	}
 	res.status(response.code as number).json(response);
 	next();
@@ -69,37 +65,36 @@ export const forgotPassword = async (
 			type: req.originalUrl,
 		});
 
-		// check if user exists and the email is verified
+		// Check if user exists and verified
 		if (user == null || user.email_verified != true) {
-			response = {
+			throw {
 				message: "Thanks, An Email with reset key will sent to this email",
 				code: 200,
 				success: false,
 			};
-			log.error("Requested User Is Not Found");
-		} else {
-			let resetKey = nanoid();
-			user.passwordResetKey = resetKey;
-
-			await sendMail({
-				from: process.env.USER_EMAIL,
-				to: user.email,
-				subject: "Reset Your Password",
-				text: `Hello, Please verify you account using the following code: ${resetKey}`,
-			});
-
-			response = {
-				message: "Thanks, An Email with reset key will sent to this email",
-				code: 200,
-				success: true,
-			};
 		}
-	} catch (error: { code?: number; message: string } | any) {
+
+		// Generate Reset Key
+		let resetKey = nanoid();
+		user.passwordResetKey = resetKey;
+
+		// Send Reset Code To User's Email
+		await sendMail({
+			from: process.env.USER_EMAIL,
+			to: user.email,
+			subject: "Reset Your Password",
+			text: `Hello, Please verify you account using the following code: ${resetKey}`,
+		});
+
 		response = {
-			message: error.message,
-			code: 500,
-			success: false,
+			message:
+				"We Will Send an Reset Code To Your Email If Your Email Exists",
+			code: 200,
+			success: true,
 		};
+	} catch (Error: ResponseInterface | any) {
+		log.error(Error);
+		response = Error;
 	}
 	res.status(response.code as number).json(response);
 	next();
@@ -120,31 +115,27 @@ export const resetPassword = async (
 		});
 
 		if (!user) {
-			response = {
-				message: "User not found",
+			throw {
+				message: "User Not Found",
 				success: false,
-				code: 400,
+				code: 404,
 			};
-		} else {
-			if (user.passwordResetKey !== req.params.reset_key) {
-				response = {
-					message: "Invalid Reset Key",
-					success: false,
-					code: 400,
-				};
-			} else {
-				response = {
-					success: true,
-					code: 200,
-				};
-			}
 		}
-	} catch (error: { message?: string; code?: number } | any) {
+		if (user.passwordResetKey !== req.params.reset_key) {
+			throw {
+				message: "Invalid Key",
+				success: false,
+				code: 403,
+			};
+		}
 		response = {
-			message: error.message,
-			code: 500,
-			success: false,
+			success: true,
+			code: 200,
+			message: "User Updated",
 		};
+	} catch (Error: ResponseInterface | any) {
+		log.error(Error);
+		response = Error;
 	}
 	res.status(response.code as number).json(response);
 	next();
@@ -165,65 +156,93 @@ export const confirmNewPassword = async (
 		});
 
 		if (!user) {
-			response = {
-				message: "User not found",
+			throw {
+				message: "User Not Found",
+				success: false,
+				code: 404,
+			};
+		}
+		if (user.passwordResetKey !== req.params.reset_key) {
+			throw {
+				message: "Invalid Reset Key",
+				success: false,
+				code: 403,
+			};
+		}
+		if (req.body.new_password !== req.body.config_new_password) {
+			throw {
 				success: false,
 				code: 400,
+				message: "Password Does Not Match",
 			};
-		} else {
-			if (user.passwordResetKey !== req.params.reset_key) {
-				response = {
-					message: "Invalid Reset Key",
-					success: false,
-					code: 400,
-				};
-			} else {
-				if (req.body.new_password !== req.body.config_new_password) {
-					response = {
-						success: false,
-						code: 500,
-						message: "Password Does Not Match",
-					};
-				} else {
-					user.password = req.body.new_password;
-					user.passwordResetKey = "";
-					user.save();
-					response = {
-						success: true,
-						code: 200,
-						message: "Password Updated",
-					};
-				}
-			}
 		}
-	} catch (error: { message?: string; code?: number } | any) {
+		user.password = req.body.new_password;
+		user.passwordResetKey = "";
+		user.save();
 		response = {
-			message: error.message,
-			code: 500,
-			success: false,
+			success: true,
+			code: 200,
+			message: "Password Updated",
 		};
+	} catch (Error: ResponseInterface | any) {
+		log.error(Error);
+		response = Error;
 	}
-
 	res.status(response.code as number).json(response);
 	next();
 };
 
-/* Get Access Token */
-export const getAccessToken = async (
+/* Create Login Session */
+export const createSession = async (
 	req: Request,
 	res: Response,
 	next: NextFunction
 ) => {
-	res.json();
-	next();
-};
+	let response: ResponseInterface;
+	try {
+		const { email, password } = req.body;
+		let user = User.findOne({
+			where: {
+				user_email: email,
+			},
+		});
 
-/* Refresh Access Token */
-export const refreshAccessToken = (
-	req: Request,
-	res: Response,
-	next: NextFunction
-) => {
-	res.json();
+		if (!user) {
+			throw {
+				code: 404,
+				message: "User Not Found",
+				successful: false,
+			};
+		}
+		// Validate User Password
+		let validatePassword = await bcrypt.compare(password, user.user_password);
+		if (!validatePassword) {
+			throw {
+				code: 403,
+				message: "Invalid Password",
+				success: false,
+			};
+		}
+		// Create session
+		let session = Session.create({
+			user: user.user_uid,
+		});
+		if (!session) {
+			throw {
+				code: 500,
+				message: "Failed To Create Session",
+				success: false,
+			};
+		}
+		response = {
+			code: 200,
+			message: "Login Successfully",
+			success: true,
+		};
+	} catch (Error: ResponseInterface | any) {
+		log.error(Error);
+		response = Error;
+	}
+	res.status(response.code).json(response);
 	next();
 };

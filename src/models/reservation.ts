@@ -3,7 +3,7 @@ import database from "@/utils/database";
 import { formatTimeRange } from "@/helpers/index";
 import { ReservationInterface } from "../types";
 
-const Reservation = database.define(
+export const Reservation = database.define(
 	"Reservation",
 	{
 		reservation_uid: {
@@ -97,5 +97,3 @@ const Reservation = database.define(
 		],
 	}
 );
-
-export default Reservation;

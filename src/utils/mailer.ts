@@ -1,8 +1,9 @@
 import nodemailer, { SendMailOptions } from "nodemailer";
-import { mailerConfig } from "@/config/index";
+import { Config } from "@/config/index";
 import { log } from "./logger";
 
 // Create and store nodemailer transporter
+const mailerConfig = Config.get("email");
 const transporter = nodemailer.createTransport({
 	...mailerConfig,
 	auth: {
