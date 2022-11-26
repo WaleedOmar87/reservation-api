@@ -21,7 +21,6 @@ export const Reservation = database.define(
 			},
 			validate: {
 				notEmpty: true,
-				notNull: true,
 			},
 		},
 		time_slot: {
@@ -32,7 +31,6 @@ export const Reservation = database.define(
 			},
 			validate: {
 				notEmpty: true,
-				notNull: true,
 			},
 		},
 		party_size: {
