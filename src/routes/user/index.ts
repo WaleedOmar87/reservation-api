@@ -23,7 +23,6 @@ router.get("/user/by_reservation/:reservation_id", getUserWithReservation);
 router.post("/user/verify_email/:id/:validation_key", verifyEmailAddress);
 router.post("/user/forgot_password/:email", forgotPassword);
 router.post("/user/reset_password/:email/:reset_key", resetPassword);
-router.post("/user", validateResources, createUser);
 router.patch("/user", validateResources, updateUser);
 router.delete("/user", validateResources, deleteUser);
 

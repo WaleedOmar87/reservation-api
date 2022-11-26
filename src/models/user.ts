@@ -1,7 +1,6 @@
 const { DataTypes } = require("sequelize");
 import database from "@/utils/database";
 const bcrypt = require("bcryptjs");
-
 export const User = database.define(
 	"User",
 	{
@@ -50,7 +49,10 @@ export const User = database.define(
 		user_phone_number: {
 			type: DataTypes.INTEGER,
 			allowNull: false,
-			unique: true,
+			unique: {
+				arg: true,
+				msg: "Phone Number Is Already Registered",
+			},
 		},
 		user_age: {
 			type: DataTypes.INTEGER,
@@ -59,7 +61,10 @@ export const User = database.define(
 		user_email: {
 			type: DataTypes.STRING,
 			allowNull: false,
-			unique: true,
+			unique: {
+				arg: true,
+				msg: "Email Is Already Registered",
+			},
 		},
 		emailValidationKey: {
 			type: DataTypes.STRING,
@@ -86,16 +91,16 @@ export const User = database.define(
 	{
 		hooks: {
 			// update password on create and save actions
-			beforeCreate: async (customer: { password?: string }) => {
-				if (customer.password) {
+			beforeCreate: async (user: { user_password?: string }) => {
+				if (user.user_password) {
 					const salt = await bcrypt.genSalt(10, "a");
-					customer.password = bcrypt.hashSync(customer.password, salt);
+					user.user_password = bcrypt.hashSync(user.user_password, salt);
 				}
 			},
-			beforeUpdate: async (customer: { password?: string }) => {
-				if (customer.password) {
+			beforeUpdate: async (user: { user_password?: string }) => {
+				if (user.user_password) {
 					const salt = await bcrypt.genSalt(10, "a");
-					customer.password = bcrypt.hashSync(customer.password, salt);
+					user.user_password = bcrypt.hashSync(user.user_password, salt);
 				}
 			},
 		},

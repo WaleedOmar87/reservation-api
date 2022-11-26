@@ -21,27 +21,45 @@ export const Restaurant = database.define(
 		},
 		country: {
 			type: DataTypes.STRING,
-			allowNull: false,
+			allowNull: {
+				arg: false,
+				msg: "Please Choose a Country",
+			},
 		},
 		provenance: {
 			type: DataTypes.STRING,
-			allowNull: false,
+			allowNull: {
+				arg: false,
+				msg: "Please Choose a Provenance",
+			},
 		},
 		city: {
 			type: DataTypes.STRING,
-			allowNull: false,
+			allowNull: {
+				arg: false,
+				msg: "Please Choose a City",
+			},
 		},
 		restaurant_name: {
 			type: DataTypes.STRING,
-			allowNull: false,
+			allowNull: {
+				arg: false,
+				msg: "Restaurant Name Cannot Be Empty",
+			},
 		},
 		restaurant_description: {
 			type: DataTypes.STRING,
-			allowNull: false,
+			allowNull: {
+				arg: false,
+				msg: "Restaurant Description Cannot Be Empty",
+			},
 		},
 		open_time: {
 			type: DataTypes.JSON,
-			allowNull: false,
+			allowNull: {
+				arg: false,
+				msg: "Please Choose Open and Close Time",
+			},
 			validate: {
 				customValidator(openTime: []) {
 					if (openTime.length < 1) {
@@ -52,11 +70,17 @@ export const Restaurant = database.define(
 		},
 		price_range: {
 			type: DataTypes.RANGE(DataTypes.INTEGER),
-			allowNull: false,
+			allowNull: {
+				arg: false,
+				msg: "Price Range Cannot Be Empty",
+			},
 		},
 		cover_image: {
 			type: DataTypes.STRING,
-			allowNull: false,
+			allowNull: {
+				arg: false,
+				msg: "Cover Image Cannot Be Empty",
+			},
 		},
 		preview_images: {
 			type: DataTypes.JSON,
@@ -69,11 +93,17 @@ export const Restaurant = database.define(
 		},
 		restaurant_address: {
 			type: DataTypes.STRING,
-			allowNull: false,
+			allowNull: {
+				arg: false,
+				msg: "Restaurant Address Cannot Be Empty",
+			},
 		},
 		food_menu: {
 			type: DataTypes.JSON,
-			allowNull: false,
+			allowNull: {
+				arg: false,
+				msg: "Food Menu Cannot Be Empty",
+			},
 			validate: {
 				customValidator(dishes: DishInterface[]) {
 					return validateJsonField(dishes, [
@@ -87,7 +117,10 @@ export const Restaurant = database.define(
 		},
 		seating_types: {
 			type: DataTypes.JSON,
-			allowNull: false,
+			allowNull: {
+				arg: false,
+				msg: "Seating Types Cannot Be Empty",
+			},
 			validate: {
 				customValidator(seats: SeatInterface[]) {
 					return validateJsonField(seats, [
@@ -101,7 +134,10 @@ export const Restaurant = database.define(
 		},
 		contact_information: {
 			type: DataTypes.JSON,
-			allowNull: false,
+			allowNull: {
+				arg: false,
+				msg: "Contact Information Cannot Be Empty",
+			},
 			validate: {
 				customValidator(contactInformation: OtherInformationInterface[]) {
 					return validateJsonField(contactInformation, ["title"]);
@@ -125,7 +161,10 @@ export const Restaurant = database.define(
 		},
 		tables: {
 			type: DataTypes.JSON,
-			allowNull: false,
+			allowNull: {
+				arg: false,
+				msg: "Restaurant Tables Cannot Be Empty",
+			},
 			validate: {
 				customValidator(tables: TablesInterface[]) {
 					return validateJsonField(tables, ["id", "title", "max_seats"]);
@@ -134,6 +173,10 @@ export const Restaurant = database.define(
 		},
 		status: {
 			type: DataTypes.STRING,
+			allowNull: {
+				arg: false,
+				msg: "Please Check Restaurant Status",
+			},
 			validate: {
 				is: /private|public/g,
 			},

@@ -4,7 +4,8 @@ import { ResponseInterface } from "@/types/index";
 import { log } from "@/utils/logger";
 import { nanoid } from "nanoid";
 import { sendMail } from "@/utils/mailer";
-import bcrypt from "bcrypt";
+import { signJWT } from "@/utils/jwt";
+const bcrypt = require("bcryptjs");
 import { Session, User } from "@/models/index";
 require("dotenv").config();
 
@@ -198,12 +199,13 @@ export const createSession = async (
 	res: Response,
 	next: NextFunction
 ) => {
-	let response: ResponseInterface;
+	let response: ResponseInterface = { code: 200 };
 	try {
-		const { email, password } = req.body;
-		let user = User.findOne({
+		const { user_email, user_password } = req.body;
+		// Find User By Email
+		let user = await User.findOne({
 			where: {
-				user_email: email,
+				user_email: user_email,
 			},
 		});
 
@@ -214,17 +216,34 @@ export const createSession = async (
 				successful: false,
 			};
 		}
+
 		// Validate User Password
-		let validatePassword = await bcrypt.compare(password, user.user_password);
-		if (!validatePassword) {
+		let validatePassword = await bcrypt.compare(
+			user_password,
+			user.user_password
+		);
+		if (!validatePassword || validatePassword == null) {
 			throw {
 				code: 403,
 				message: "Invalid Password",
 				success: false,
 			};
 		}
+
+		// Create Access Token Using User Data
+		let accessToken = signJWT(user.toJSON(), "accessTokenPrivateKey", {
+			expiresIn: "1d",
+		});
+		if (!accessToken) {
+			throw {
+				code: 500,
+				message: "Unable To Sign JWT",
+				success: false,
+			};
+		}
+
 		// Create session
-		let session = Session.create({
+		const session = await Session.create({
 			user: user.user_uid,
 		});
 		if (!session) {
@@ -234,15 +253,44 @@ export const createSession = async (
 				success: false,
 			};
 		}
+
+		// Create Refresh Token With Session ID as a Reference
+		let refreshToken = signJWT(
+			{
+				session: session.session_uid,
+			},
+			"refreshTokenPrivateKey",
+			{
+				expiresIn: "1y",
+			}
+		);
+
+		if (!refreshToken) {
+			throw {
+				code: 500,
+				message: "Unable To Sign RefreshToken",
+				success: false,
+			};
+		}
 		response = {
 			code: 200,
 			message: "Login Successfully",
 			success: true,
+			data: [{ accessToken: accessToken, refreshToken }],
 		};
 	} catch (Error: ResponseInterface | any) {
 		log.error(Error);
 		response = Error;
 	}
 	res.status(response.code).json(response);
+	next();
+};
+
+/* Delete Session */
+export const deleteSession = (
+	req: Request,
+	res: Response,
+	next: NextFunction
+) => {
 	next();
 };

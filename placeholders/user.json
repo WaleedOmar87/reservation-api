@@ -1,0 +1,14 @@
+{
+	"user_name": "Jane Adams",
+	"user_company": "NILL Company Ltd",
+	"zip_code": "234",
+	"user_role": "staff",
+	"user_address": "123 UpperMill Road WD",
+	"user_country": "United States",
+	"user_provenance": "Washington",
+	"user_city": "Washington DC",
+	"user_phone_number": "01119999999",
+	"user_age": "30",
+	"user_email": "jane@gmail.com",
+	"user_password": "123456"
+}

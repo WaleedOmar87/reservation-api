@@ -3,7 +3,7 @@ import { Config } from "@/config/index";
 import { log } from "./logger";
 
 // Create and store nodemailer transporter
-const mailerConfig = Config.get("email");
+const mailerConfig = Config["email"];
 const transporter = nodemailer.createTransport({
 	...mailerConfig,
 	auth: {

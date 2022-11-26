@@ -13,26 +13,21 @@ export const getAllRestaurants = async (
 	try {
 		const restaurant = await Restaurant.findAll();
 		if (!restaurant || restaurant.length < 1) {
-			response = {
+			throw {
 				message: "No Restaurants Were Found",
 				code: 400,
 				success: false,
 			};
-		} else {
-			response = {
-				data: restaurant,
-				message: "Restaurants Found ",
-				code: 200,
-				success: true,
-			};
 		}
-	} catch (error: ErrorInterface | any) {
-		log.error(error);
 		response = {
-			message: `Unexpected Error: ${error.message}`,
-			code: 500,
-			success: false,
+			data: restaurant,
+			message: "Restaurants Found ",
+			code: 200,
+			success: true,
 		};
+	} catch (Error: ResponseInterface | any) {
+		log.error(Error);
+		response = Error;
 	}
 	res.status(response.code).json(response);
 	next();
@@ -53,26 +48,21 @@ export const getRestaurantByID = async (
 			},
 		});
 		if (!restaurant) {
-			response = {
+			throw {
 				message: "Restaurant Not Found",
 				success: false,
 				code: 400,
 			};
-		} else {
-			response = {
-				data: restaurant,
-				message: "Restaurant were found",
-				code: 200,
-				success: true,
-			};
 		}
-	} catch (error: ErrorInterface | any) {
-		log.error(error);
 		response = {
-			message: `Error: ${error.message}`,
-			success: false,
-			code: 500,
+			data: restaurant,
+			message: "Restaurant were found",
+			code: 200,
+			success: true,
 		};
+	} catch (Error: ResponseInterface | any) {
+		log.error(Error);
+		response = Error;
 	}
 	res.status(response.code).json(response);
 	next();
@@ -174,6 +164,7 @@ export const updateRestaurant = async (
 			success: true,
 		};
 	} catch (Error: ResponseInterface | any) {
+		log.error(Error);
 		response = Error;
 	}
 	res.status(response.code).json(response);

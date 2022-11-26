@@ -10,7 +10,10 @@ export const Review = database.define("Review", {
 	},
 	food_rating: {
 		type: DataTypes.INTEGER,
-		allowNull: false,
+		allowNull: {
+			arg: false,
+			msg: "Rating Is Required",
+		},
 		validate: {
 			min: 1,
 			max: 5,
@@ -18,7 +21,10 @@ export const Review = database.define("Review", {
 	},
 	service_rating: {
 		type: DataTypes.INTEGER,
-		allowNull: false,
+		allowNull: {
+			arg: false,
+			msg: "Service Rating Is Required",
+		},
 		validate: {
 			min: 1,
 			max: 5,
@@ -26,7 +32,10 @@ export const Review = database.define("Review", {
 	},
 	ambience_rating: {
 		type: DataTypes.INTEGER,
-		allowNull: false,
+		allowNull: {
+			arg: false,
+			msg: "Ambience Rating Is Required",
+		},
 		validate: {
 			min: 1,
 			max: 5,
@@ -34,7 +43,10 @@ export const Review = database.define("Review", {
 	},
 	value_rating: {
 		type: DataTypes.INTEGER,
-		allowNull: false,
+		allowNull: {
+			arg: false,
+			msg: "Value Rating Is Required",
+		},
 		validate: {
 			min: 1,
 			max: 5,
@@ -46,6 +58,9 @@ export const Review = database.define("Review", {
 	},
 	date: {
 		type: DataTypes.DATE,
-		allowNull: false,
+		allowNull: {
+			arg: false,
+			msg: "Comment Date Is Missing",
+		},
 	},
 });

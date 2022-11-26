@@ -15,7 +15,10 @@ export const Reservation = database.define(
 		},
 		table_id: {
 			type: DataTypes.STRING,
-			allowNull: false,
+			allowNull: {
+				arg: false,
+				msg: "Tables Can Not Be Empty",
+			},
 			validate: {
 				notEmpty: true,
 				notNull: true,
@@ -23,7 +26,10 @@ export const Reservation = database.define(
 		},
 		time_slot: {
 			type: DataTypes.RANGE(DataTypes.DATE),
-			allowNull: false,
+			allowNull: {
+				art: false,
+				msg: "Please Pick Reservation Time",
+			},
 			validate: {
 				notEmpty: true,
 				notNull: true,
@@ -31,7 +37,10 @@ export const Reservation = database.define(
 		},
 		party_size: {
 			type: DataTypes.INTEGER,
-			allowNull: false,
+			allowNull: {
+				arg: false,
+				msg: "Please Choose Party Size",
+			},
 			validate: {
 				min: 1,
 				max: 20,
@@ -39,7 +48,10 @@ export const Reservation = database.define(
 		},
 		reservation_date: {
 			type: DataTypes.DATE,
-			allowNull: false,
+			allowNull: {
+				arg: false,
+				msg: "Please Choose a Reservation Date",
+			},
 			validate: {
 				notEmpty: true,
 			},
@@ -50,11 +62,17 @@ export const Reservation = database.define(
 		},
 		order_items: {
 			type: DataTypes.JSON,
-			allowNull: false,
+			allowNull: {
+				arg: false,
+				msg: "Please Choose At Least One Dish From The Menu",
+			},
 		},
 		order_total: {
 			type: DataTypes.INTEGER,
-			allowNull: false,
+			allowNull: {
+				arg: false,
+				msg: "Order Total Cannot Be Empty",
+			},
 			validate: {
 				min: 1,
 			},

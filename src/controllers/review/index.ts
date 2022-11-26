@@ -230,9 +230,12 @@ export const deleteReview = async (
 			code: 200,
 			success: true,
 		};
-	} catch (Error: ResponseInterface | any) {
-		log.error(Error);
-		response = Error;
+	} catch (error: ErrorInterface | any) {
+		response = {
+			message: `Error: ${error.message}`,
+			code: 500,
+			success: false,
+		};
 	}
 	res.status(response.code).json(response);
 	next();

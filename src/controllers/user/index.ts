@@ -89,20 +89,16 @@ export const createUser = async (
 			subject: "Confirm Your Account",
 			text: `Hello: ${newUser.user_name}, Please verify you account using the following code: ${newUser.emailValidationKey}`,
 		});
-
 		response = {
 			message: "User Created Successfully",
 			success: true,
 			code: 200,
 		};
-	} catch (error: ErrorInterface | any) {
-		response = {
-			message: error.message,
-			success: true,
-			code: 500,
-		};
+	} catch (Error: ResponseInterface | any) {
+		log.error(Error);
+		response = Error.errors[0].message;
 	}
-	res.status(response.code).json(response);
+	res.status(response.code ? response.code : 500).json(response);
 	next();
 };
 
