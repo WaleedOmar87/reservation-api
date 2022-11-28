@@ -8,10 +8,10 @@ export const Config: any = {
 		secure: false,
 	},
 	jwt: {
-		accessTokenPrivateKey: "something",
-		accessTokenPublicKey: "something",
-		refreshTokenPrivateKey: "something_else",
-		refreshTokenPublicKey: "something_else",
+		accessTokenPrivateKey: process.env.ACCESS_TOKEN_PRIVATE_KEY,
+		accessTokenPublicKey: process.env.ACCESS_TOKEN_PUBLIC_KEY,
+		refreshTokenPrivateKey: process.env.REFRESH_TOKEN_PRIVATE_KEY,
+		refreshTokenPublicKey: process.env.REFRESH_TOKEN_PUBLIC_KEY,
 	},
 	cors: {
 		origin: `${process.env.WEB_SERVER}:${process.env.PORT}`,
