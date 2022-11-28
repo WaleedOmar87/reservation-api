@@ -5,15 +5,32 @@ import {
 	updateReservation,
 	deleteReservation,
 } from "@/controllers/reservation";
+import { checkUserRole } from "@/middlewares/checkUserRole";
 import * as Express from "express";
 
 /* Initialize router */
 const router: Express.Router = Express.Router();
 
-router.get("/reservation", getAllReservations);
-router.get("/reservation/:id", getReservationByID);
+router.get(
+	"/reservation",
+	checkUserRole(["admin", "staff", "owner"]),
+	getAllReservations
+);
+router.get(
+	"/reservation/:id",
+	checkUserRole(["admin", "staff", "owner"]),
+	getReservationByID
+);
 router.post("/reservation", createReservation);
-router.patch("/reservation", updateReservation);
-router.delete("/reservation", deleteReservation);
+router.patch(
+	"/reservation",
+	checkUserRole(["admin", "staff", "owner"]),
+	updateReservation
+);
+router.delete(
+	"/reservation",
+	checkUserRole(["admin", "staff", "owner"]),
+	deleteReservation
+);
 
 export default router;

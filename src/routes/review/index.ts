@@ -7,6 +7,7 @@ import {
 	updateReview,
 	deleteReview,
 } from "@/controllers/review";
+import { checkUserRole } from "@/middlewares/checkUserRole";
 import * as Express from "express";
 
 /* Initialize router */
@@ -16,8 +17,16 @@ router.get("/review", getAllReviews);
 router.get("/review/:id", getReviewByID);
 router.get("/review/withcustomer/:id", getReviewWithCustomer);
 router.get("/review/withrestaurant/:id", getReviewWithRestaurant);
-router.post("/review/", createReview);
-router.patch("/review", updateReview);
-router.delete("/review", deleteReview);
+router.post(
+	"/review/",
+	checkUserRole(["admin", "staff", "customer"]),
+	createReview
+);
+router.patch(
+	"/review",
+	checkUserRole(["admin", "staff", "customer"]),
+	updateReview
+);
+router.delete("/review", checkUserRole(["admin", "staff"]), deleteReview);
 
 export default router;

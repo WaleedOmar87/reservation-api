@@ -12,7 +12,7 @@ import {
 	forgotPassword,
 	resetPassword,
 } from "@/controllers/auth";
-import { validateResources } from "@/middlewares/index";
+import { checkUserRole } from "@/middlewares/index";
 
 /* Initialize router */
 const router: Express.Router = Express.Router();
@@ -23,7 +23,7 @@ router.get("/user/by_reservation/:reservation_id", getUserWithReservation);
 router.post("/user/verify_email/:id/:validation_key", verifyEmailAddress);
 router.post("/user/forgot_password/:email", forgotPassword);
 router.post("/user/reset_password/:email/:reset_key", resetPassword);
-router.patch("/user", validateResources, updateUser);
-router.delete("/user", validateResources, deleteUser);
+router.patch("/user", updateUser);
+router.delete("/user", checkUserRole(["admin"]), deleteUser);
 
 export default router;
