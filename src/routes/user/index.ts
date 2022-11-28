@@ -2,7 +2,6 @@ import * as Express from "express";
 import {
 	getUser,
 	getUsers,
-	createUser,
 	updateUser,
 	deleteUser,
 	getUserWithReservation,
