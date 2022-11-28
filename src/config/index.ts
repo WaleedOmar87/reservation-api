@@ -8,22 +8,10 @@ export const Config: any = {
 		secure: false,
 	},
 	jwt: {
-		accessTokenPrivateKey: process.env.ACCESS_TOKEN_PRIVATE_KEY?.replace(
-			/\\n/gm,
-			"\n"
-		),
-		accessTokenPublicKey: process.env.ACCESS_TOKEN_PUBLIC_KEY?.replace(
-			/\\n/gm,
-			"\n"
-		),
-		refreshTokenPrivateKey: process.env.REFRESH_TOKEN_PRIVATE_KEY?.replace(
-			/\\n/gm,
-			"\n"
-		),
-		refreshTokenPublicKey: process.env.REFRESH_TOKEN_PUBLIC_KEY?.replace(
-			/\\n/gm,
-			"\n"
-		),
+		accessTokenPrivateKey: "something",
+		accessTokenPublicKey: "something",
+		refreshTokenPrivateKey: "something_else",
+		refreshTokenPublicKey: "something_else",
 	},
 	cors: {
 		origin: `${process.env.WEB_SERVER}:${process.env.PORT}`,

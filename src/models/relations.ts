@@ -9,7 +9,6 @@ export const Relations = () => {
 	Restaurant.belongsTo(User, {
 		constrains: true,
 		onDelete: "CASCADE",
-		foreignKey: "user_uid",
 	});
 
 	User.hasMany(Reservation, { constrains: true, onDelete: "CASCADE" });
@@ -17,12 +16,10 @@ export const Relations = () => {
 	Review.belongsTo(User, {
 		constrains: true,
 		onDelete: "CASCADE",
-		foreignKey: "user_uid",
 	});
 	Reservation.belongsTo(User, {
 		constrains: true,
 		onDelete: "CASCADE",
-		foreignKey: "user_uid",
 	});
 	Restaurant.hasMany(Reservation, { constrains: true, onDelete: "CASCADE" });
 	Restaurant.hasMany(Review, { constrains: true, onDelete: "CASCADE" });

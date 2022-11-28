@@ -29,7 +29,7 @@ export const signJWT = (
 // Validate JWT
 export const validateJWT = <T>(
 	token: string,
-	keyName: "accessTokenPublicsKey" | "refreshTokenPublicKey"
+	keyName: "accessTokenPublicKey" | "refreshTokenPrivateKey"
 ): T | null => {
 	// Get and decode public key
 	const publicKey = Buffer.from(jwtConfig[keyName], "base64").toString(
@@ -37,7 +37,9 @@ export const validateJWT = <T>(
 	);
 	// Verify decoded key
 	try {
-		let decodedKey = jwt.verify(token, publicKey);
+		let decodedKey = jwt.verify(token, publicKey, {
+			algorithms: ["HS256"],
+		});
 		return decodedKey as T;
 	} catch (error: any) {
 		log.error(`JWT Validation Error ${error}`);

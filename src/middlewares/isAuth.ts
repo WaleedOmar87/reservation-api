@@ -8,22 +8,30 @@ import { validateJWT } from "@/utils/jwt";
 	Get logged in user and attach user object to res.locals
 */
 export default (req: Request, res: Response, next: NextFunction) => {
-	let response: ResponseInterface = { code: 200 };
+	let response: ResponseInterface;
 	try {
 		// Get accessToken
 		let authorization = req.headers.authorization;
 		let accessToken = authorization
 			? authorization.replace(/^Bearer\s/g, "")
 			: "";
-		if (!accessToken) {
-			response = {
+		if (accessToken == "") {
+			throw {
 				code: 403,
 				message: "Unauthorized",
 				success: false,
 			};
 		}
+
 		// Deserialize Token and Get User Object
-		let user = validateJWT(accessToken, "accessTokenPublicsKey");
+		let user = validateJWT(accessToken, "accessTokenPublicKey");
+		if (!user) {
+			throw {
+				code: 500,
+				message: "Unable To Validate Token",
+				success: false,
+			};
+		}
 
 		// Store User In Locals
 		res.locals.user = user;
@@ -33,8 +41,9 @@ export default (req: Request, res: Response, next: NextFunction) => {
 			message: "Validated",
 			data: [{ ...(user as {}) }],
 		};
-	} catch (error: any) {
-		log.error(error);
+	} catch (Error: ResponseInterface | any) {
+		log.error(Error.message);
+		response = Error;
 	}
 
 	if (response.code !== 200) {

@@ -7,6 +7,7 @@ import { sendMail } from "@/utils/mailer";
 import { signJWT } from "@/utils/jwt";
 const bcrypt = require("bcryptjs");
 import { Session, User } from "@/models/index";
+import { pick } from "lodash";
 require("dotenv").config();
 
 /* Verify Email Address */
@@ -202,6 +203,16 @@ export const createSession = async (
 	let response: ResponseInterface = { code: 200 };
 	try {
 		const { user_email, user_password } = req.body;
+
+		// If user email or password are not provided
+		if (!user_email || !user_password) {
+			throw {
+				message: "Unauthorized",
+				code: 403,
+				success: false,
+			};
+		}
+
 		// Find User By Email
 		let user = await User.findOne({
 			where: {
@@ -209,6 +220,7 @@ export const createSession = async (
 			},
 		});
 
+		// If there's error fetching user
 		if (!user) {
 			throw {
 				code: 404,
@@ -231,9 +243,15 @@ export const createSession = async (
 		}
 
 		// Create Access Token Using User Data
-		let accessToken = signJWT(user.toJSON(), "accessTokenPrivateKey", {
+		let signData = pick(user.toJSON(), [
+			"user_uid",
+			"user_email",
+			"user_role",
+		]);
+		let accessToken = signJWT(signData, "accessTokenPrivateKey", {
 			expiresIn: "1d",
 		});
+
 		if (!accessToken) {
 			throw {
 				code: 500,
@@ -283,14 +301,5 @@ export const createSession = async (
 		response = Error;
 	}
 	res.status(response.code).json(response);
-	next();
-};
-
-/* Delete Session */
-export const deleteSession = (
-	req: Request,
-	res: Response,
-	next: NextFunction
-) => {
 	next();
 };
