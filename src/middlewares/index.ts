@@ -1,3 +1,3 @@
-export { default as validateResources } from "@/middlewares/validateResources";
-export { default as isAuth } from "@/middlewares/isAuth";
+export { validateResources } from "@/middlewares/validateResources";
+export { isAuth } from "@/middlewares/isAuth";
 export { checkUserRole } from "@/middlewares/checkUserRole";

@@ -7,7 +7,7 @@ import { validateJWT } from "@/utils/jwt";
 	Get Logged In User
 	Get logged in user and attach user object to res.locals
 */
-export default (req: Request, res: Response, next: NextFunction) => {
+export const isAuth = (req: Request, res: Response, next: NextFunction) => {
 	let response: ResponseInterface;
 	try {
 		// Get accessToken
